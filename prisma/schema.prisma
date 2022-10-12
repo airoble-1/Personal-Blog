@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading: 
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -14,23 +14,115 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id String @id @default(cuid())
+model Blog {
+    id          Int      @id @default(autoincrement())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    author      User     @relation(fields: [authorId], references: [id])
+    authorId    String
+    name        String
+    description String
+    image       Bytes[]
+    imageType   String
+    posts       Post[]
 }
 
-// Necessary for Next auth
+model Post {
+    id          Int         @id @default(autoincrement())
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+    blog        Blog        @relation(fields: [blogId], references: [id])
+    blogId      Int
+    author      User        @relation(fields: [authorId], references: [id])
+    authorId    String
+    title       String
+    abstract    String
+    content     String
+    readyStatus ReadyStatus @default(Incomplete)
+    slug        String
+    image       Bytes[]
+    imageType   String
+    comments    Comment[]
+    tags        Tag[]
+}
+
+enum ReadyStatus {
+    ProductionReady
+    PreviewReady
+    Incomplete
+}
+
+model Comment {
+    id             Int             @id @default(autoincrement())
+    createdAt      DateTime        @default(now())
+    updatedAt      DateTime        @updatedAt
+    moderated      DateTime
+    deleted        DateTime
+    post           Post            @relation(fields: [postId], references: [id])
+    postId         Int
+    author         User            @relation(fields: [authorId], references: [id])
+    authorId       String
+    moderator      User?           @relation(fields: [moderatorId], references: [id], name: "moderator")
+    moderatorId    String?
+    moderationType ModerationType?
+    body           String
+    moderatedBody  String?
+}
+
+enum ModerationType {
+    Political
+    Language
+    Drugs
+    Threatening
+    Sexual
+    HateSpeech
+    Shaming
+    Fraud
+}
+
+model Tag {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    post      Post     @relation(fields: [postId], references: [id])
+    postId    Int
+    author    User     @relation(fields: [authorId], references: [id])
+    authorId  String
+    text      String   @db.Text
+}
+
+model User {
+    id                String    @id @default(cuid())
+    createdAt         DateTime  @default(now())
+    updatedAt         DateTime  @updatedAt
+    firstName         String
+    lastName          String
+    image             Bytes[]
+    imageType         String
+    email             String    @unique
+    passwordHash      String
+    emailVerified     DateTime?
+    accounts          Account[]
+    sessions          Session[]
+    comments          Comment[]
+    moderatedComments Comment[] @relation(name: "moderator")
+    tags              Tag[]
+    blogs             Blog[]
+    posts             Post[]
+}
+
 model Account {
     id                String  @id @default(cuid())
     userId            String
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? // @db.Text
+    id_token          String? @db.Text
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -43,16 +135,6 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
 }
 
 model VerificationToken {
