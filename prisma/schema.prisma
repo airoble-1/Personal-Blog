@@ -15,35 +15,33 @@ datasource db {
 }
 
 model Blog {
-    id          Int      @id @default(autoincrement())
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    author      User     @relation(fields: [authorId], references: [id])
-    authorId    String
-    name        String
-    description String
-    image       Bytes[]
-    imageType   String
-    posts       Post[]
+    id           Int      @id @default(autoincrement())
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    author       User     @relation(fields: [authorId], references: [id])
+    authorId     String
+    name         String
+    description  String
+    featureimage String
+    posts        Post[]
 }
 
 model Post {
-    id          Int         @id @default(autoincrement())
-    createdAt   DateTime    @default(now())
-    updatedAt   DateTime    @updatedAt
-    blog        Blog        @relation(fields: [blogId], references: [id])
-    blogId      Int
-    author      User        @relation(fields: [authorId], references: [id])
-    authorId    String
-    title       String
-    abstract    String
-    content     String
-    readyStatus ReadyStatus @default(Incomplete)
-    slug        String
-    image       Bytes[]
-    imageType   String
-    comments    Comment[]
-    tags        Tag[]
+    id           Int         @id @default(autoincrement())
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
+    blog         Blog        @relation(fields: [blogId], references: [id])
+    blogId       Int
+    author       User        @relation(fields: [authorId], references: [id])
+    authorId     String
+    title        String
+    abstract     String
+    content      String
+    readyStatus  ReadyStatus @default(Incomplete)
+    slug         String
+    featureImage String
+    comments     Comment[]
+    tags         Tag[]
 }
 
 enum ReadyStatus {
@@ -97,13 +95,13 @@ model User {
     updatedAt         DateTime  @updatedAt
     firstName         String
     lastName          String
-    image             Bytes[]
-    imageType         String
+    profileImage      String?
     email             String    @unique
     passwordHash      String
-    emailVerified     DateTime?
-    accounts          Account[]
-    sessions          Session[]
+    role              Role      @default(User)
+    // emailVerified     DateTime?
+    // accounts          Account[]
+    // sessions          Session[]
     comments          Comment[]
     moderatedComments Comment[] @relation(name: "moderator")
     tags              Tag[]
@@ -111,36 +109,42 @@ model User {
     posts             Post[]
 }
 
-model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? @db.Text
-    access_token      String? @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@unique([provider, providerAccountId])
+enum Role {
+    User
+    Administrator
+    Moderator
 }
 
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
+// model Account {
+//     id                String  @id @default(cuid())
+//     userId            String
+//     type              String
+//     provider          String
+//     providerAccountId String
+//     refresh_token     String? @db.Text
+//     access_token      String? @db.Text
+//     expires_at        Int?
+//     token_type        String?
+//     scope             String?
+//     id_token          String? @db.Text
+//     session_state     String?
+//     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+//     @@unique([provider, providerAccountId])
+// }
 
-    @@unique([identifier, token])
-}
+// model Session {
+//     id           String   @id @default(cuid())
+//     sessionToken String   @unique
+//     userId       String
+//     expires      DateTime
+//     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+// }
+
+// model VerificationToken {
+//     identifier String
+//     token      String   @unique
+//     expires    DateTime
+
+//     @@unique([identifier, token])
+// }

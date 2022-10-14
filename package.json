@@ -12,6 +12,12 @@
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.4",
     "@prisma/client": "^4.4.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/cookie": "^0.5.1",
+    "@types/jsonwebtoken": "^8.5.9",
+    "bcrypt": "^5.1.0",
+    "cookie": "^0.5.0",
+    "jsonwebtoken": "^8.5.1",
     "next": "12.3.1",
     "next-auth": "^4.12.3",
     "react": "18.2.0",
