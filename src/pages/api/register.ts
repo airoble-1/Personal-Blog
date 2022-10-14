@@ -5,7 +5,7 @@ import cookie from "cookie";
 import { prisma } from "../../server/db/client";
 import { env } from "../../env/server.mjs";
 
-const registerUser = async (req: NextApiRequest, res: NextApiResponse) => {
+const registerHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const salt = bcrypt.genSaltSync();
   const { firstName, lastName, email, password, profileImage } = req.body;
 
@@ -52,4 +52,4 @@ const registerUser = async (req: NextApiRequest, res: NextApiResponse) => {
   res.json(user);
 };
 
-export default registerUser;
+export default registerHandler;
