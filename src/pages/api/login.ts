@@ -36,9 +36,10 @@ const loginHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         secure: process.env.NODE_ENV === "production",
       })
     );
-
-    res.json(user);
+    console.log("Login sucessful");
+    res.status(200).json({ Sucess: "Login sucessful" });
   } else {
+    console.log("Login failed");
     res.status(401);
     res.json({ error: "Email or Password is wrong" });
   }

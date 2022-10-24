@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { Jwt, JwtPayload } from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../src/server/db/client";
 import { env } from "../src/env/server.mjs";
@@ -34,4 +34,9 @@ export const validateRoute = (handler) => {
     res.json({ error: "Not Authorized" });
     return;
   };
+};
+
+export const validateToken = (token: string, secret = env.JWT_SECRET) => {
+  const user = jwt.verify(token, secret);
+  return user;
 };
