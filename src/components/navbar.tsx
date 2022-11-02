@@ -1,13 +1,91 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useQuery } from "react-query";
+import { fetchUser } from "../../lib/queries";
 
 export default function Navbar() {
+  const fetchUser = async () => {
+    const res = await fetch(`${window.location.origin}/api/user`);
+    if (!res.ok) {
+      throw new Error("failed to fetch user data  ");
+    }
+    return await res.json();
+  };
+  const { isLoading, isError, data } = useQuery(["user"], fetchUser, {
+    retry: 0,
+  });
+
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+  }
+
   return (
-    <nav>
-      <h1 className="text-3xl font-bold text-gray-700  underline">
-        Navigation
-      </h1>
-    </nav>
+    <header className="sticky top-0 z-10 bg-teal-700 text-white">
+      <section className="mx-auto flex max-w-screen-xl items-center justify-between p-4">
+        <Image
+          className="rounded-full"
+          src={
+            data
+              ? data.profileImage
+              : "https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+          }
+          alt="Picture of the blogger"
+          width={70}
+          height={70}
+          placeholder="blur"
+          blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+        />
+        <h1 className="text-3xl font-medium">
+          <Link href="/">
+            <a>{`Ahmed's Blog`}</a>
+          </Link>
+        </h1>
+        <div>
+          <button
+            id="mobile-open-button"
+            className="text-3xl focus:outline-none sm:hidden"
+          >
+            &#9776;
+          </button>
+          <nav className="hidden space-x-8 text-xl sm:block" aria-label="main">
+            <Link href="">
+              <a className="hover:opacity-90">HOME</a>
+            </Link>
+            <Link href="">
+              <a className="hover:opacity-90">ABOUT ME</a>
+            </Link>
+            <Link href="">
+              <a className="hover:opacity-90">CONTACT ME</a>
+            </Link>
+            <Link href="">
+              <a className="hover:opacity-90">SWAGGER API</a>
+            </Link>
+
+            {data ? (
+              <Link href="/">
+                <a className="hover:opacity-90">{`Hi, ${data.firstName}!`}</a>
+              </Link>
+            ) : (
+              <Link href="/register">
+                <a className="hover:opacity-90">REGISTER</a>
+              </Link>
+            )}
+            {data ? (
+              <Link href="/">
+                <a className="hover:opacity-90">LOGOUT</a>
+              </Link>
+            ) : (
+              <Link href="/login">
+                <a className="hover:opacity-90">LOGIN</a>
+              </Link>
+            )}
+          </nav>
+        </div>
+      </section>
+    </header>
   );
 }
 

@@ -19,9 +19,7 @@ export default function LoginForm() {
     setSelectedFile(fileList[0]);
   };
 
-  const uploadFile = async function (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) {
+  const uploadFile = async function () {
     if (selectedFIle) {
       const formData = new FormData();
       formData.append("file", selectedFIle);
@@ -37,10 +35,12 @@ export default function LoginForm() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    const data = await uploadFile(e);
+    const data = await uploadFile();
+    console.log(data);
+    if (!data) return;
     const response = await registerMutation("register", {
       firstName,
       lastName,

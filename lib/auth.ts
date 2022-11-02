@@ -1,4 +1,4 @@
-import jwt, { Jwt, JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../src/server/db/client";
 import { env } from "../src/env/server.mjs";
@@ -12,7 +12,7 @@ export const validateRoute = (handler) => {
       let user;
 
       try {
-        const { id } = jwt.verify(token, env.JWT_SECRET);
+        const { id } = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
         user = await prisma.user.findUnique({
           where: {
             id,
@@ -36,7 +36,17 @@ export const validateRoute = (handler) => {
   };
 };
 
-export const validateToken = (token: string, secret = env.JWT_SECRET) => {
-  const user = jwt.verify(token, secret);
-  return user;
+interface myJWTPayload extends JwtPayload {
+  email: string;
+  id: string;
+  role: string;
+  createdAt: number;
+}
+
+export const validateToken = (
+  token: string,
+  secret: string = env.JWT_SECRET
+): myJWTPayload => {
+  const payload = jwt.verify(token, secret) as myJWTPayload;
+  return payload;
 };

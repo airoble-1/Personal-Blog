@@ -11,14 +11,16 @@ const LoginPage: NextPage = ({}) => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   let id;
   try {
-    const { id } = validateToken(ctx.req.cookies[env.COOKIE_NAME]);
+    const payload = validateToken(ctx.req.cookies[env.COOKIE_NAME] as string);
+
+    id = payload.id;
   } catch (e) {
     return {
       props: {},
     };
   }
 
-  const user = prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       id,
     },
