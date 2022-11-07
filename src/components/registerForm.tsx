@@ -38,19 +38,23 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    const data = await uploadFile();
-    console.log(data);
-    if (!data) return;
-    const response = await registerMutation("register", {
-      firstName,
-      lastName,
-      email,
-      password,
-      profileImage: data.secure_url,
-    });
+    try {
+      const data = await uploadFile();
+      console.log(data);
+      if (!data) return;
+      const response = await registerMutation("register", {
+        firstName,
+        lastName,
+        email,
+        password,
+        profileImage: data.secure_url,
+      });
 
-    if (response.Sucess) router.push("/");
-    setIsLoading(false);
+      if (response.Sucess) router.replace("/");
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

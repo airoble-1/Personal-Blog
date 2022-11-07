@@ -45,7 +45,7 @@ interface myJWTPayload extends JwtPayload {
 
 export const validateToken = (
   token: string,
-  secret: string = env.JWT_SECRET
+  secret: string = env.NEXTAUTH_SECRET
 ): myJWTPayload => {
   const payload = jwt.verify(token, secret) as myJWTPayload;
   return payload;

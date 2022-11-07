@@ -1,17 +1,20 @@
 import type { AppType } from "next/dist/shared/lib/utils";
 import Layout from "../components/layout";
 import "../styles/globals.css";
-import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider, QueryClient } from "react-query";
+import { SessionProvider } from "next-auth/react";
+
 const MyApp: AppType = ({ Component, pageProps }) => {
-  const [queryClient] = useState(() => new QueryClient());
+  const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
+    //<QueryClientProvider client={queryClient}>
+    <SessionProvider session={pageProps.session}>
       <Layout>
         <Component {...pageProps} />;
       </Layout>
-    </QueryClientProvider>
+    </SessionProvider>
+    // </QueryClientProvider>
   );
 };
 

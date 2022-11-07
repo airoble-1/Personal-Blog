@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import React, { FormEventHandler, SyntheticEvent, useState } from "react";
 import { loginMutation } from "../../lib/mutations";
+import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -9,14 +10,18 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     setIsLoading(true);
-    const response = await loginMutation("login", { email, password });
-    console.log(response);
-    if (response.Sucess) router.push("/");
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+    console.log("result: ", result);
+    if (!result.error) router.replace("/");
     setIsLoading(false);
-  };
+  }
 
   return (
     <section className="h-screen">

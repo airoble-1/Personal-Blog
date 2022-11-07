@@ -23,7 +23,7 @@ const registerHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   } catch (e) {
     res.status(401);
-    res.json({ error: "User already exists =(" });
+    res.status(422).json({ error: "User already exists =(" });
     return;
   }
 
@@ -49,7 +49,7 @@ const registerHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     })
   );
 
-  res.json({ Sucess: "User created!" });
+  res.status(201).json({ message: "User created!" });
 };
 
 export default registerHandler;
