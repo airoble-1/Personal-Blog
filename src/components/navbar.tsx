@@ -1,37 +1,49 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useQuery } from "react-query";
-import { fetchUser } from "../../lib/queries";
+import { useSession, signOut } from "next-auth/react";
+import { sign } from "jsonwebtoken";
+import { useRouter } from "next/router";
 
+// import { useQuery } from "react-query";
+// import { fetchUser } from "../../lib/queries";
+// user data should be taken from state
+// state should change twice once on initial render and 2nd on login
+// set to Sessions + jwt tokens + 1hr exp + refershing + idle timer
 export default function Navbar() {
-  const fetchUser = async () => {
-    const res = await fetch(`${window.location.origin}/api/user`);
-    if (!res.ok) {
-      throw new Error("failed to fetch user data  ");
-    }
-    return await res.json();
-  };
-  const { isLoading, isError, data } = useQuery(["user"], fetchUser, {
-    retry: 0,
-  });
+  // const fetchUser = async () => {
+  //   const res = await fetch(`${window.location.origin}/api/user`);
+  //   if (!res.ok) {
+  //     throw new Error("failed to fetch user data");
+  //   }
+  //   console.log("res: ", res);
+  //   return await res.json();
+  // };
+  // const { isLoading, isError, data, error } = useQuery(["user"], fetchUser);
 
-  if (isLoading) {
-    return <span>Loading...</span>;
+  // if (isLoading) {
+  //   return <span>Loading...</span>;
+  // }
+
+  // if (isError) {
+  // }
+
+  // console.log("error: ", error);
+  // console.log("data: ", data);
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  console.log("session: ", session);
+  console.log("status: ", status);
+  function logoutHandler() {
+    router.push("/");
+    signOut();
   }
-
-  if (isError) {
-  }
-
   return (
     <header className="sticky top-0 z-10 bg-teal-700 text-white">
       <section className="mx-auto flex max-w-screen-xl items-center justify-between p-4">
         <Image
           className="rounded-full"
-          src={
-            data
-              ? data.profileImage
-              : "https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
-          }
+          src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
           alt="Picture of the blogger"
           width={70}
           height={70}
@@ -50,36 +62,81 @@ export default function Navbar() {
           >
             &#9776;
           </button>
-          <nav className="hidden space-x-8 text-xl sm:block" aria-label="main">
-            <Link href="">
-              <a className="hover:opacity-90">HOME</a>
-            </Link>
-            <Link href="">
-              <a className="hover:opacity-90">ABOUT ME</a>
-            </Link>
-            <Link href="">
-              <a className="hover:opacity-90">CONTACT ME</a>
-            </Link>
+          <nav className="hidden space-x-8 text-lg sm:block" aria-label="main">
+            {!session && (
+              <>
+                <Link href="">
+                  <a className="hover:opacity-90">HOME</a>
+                </Link>
+                <Link href="">
+                  <a className="hover:opacity-90">ABOUT ME</a>
+                </Link>
+                <Link href="">
+                  <a className="hover:opacity-90">CONTACT ME</a>
+                </Link>
+              </>
+            )}
+            {session && session.user.role === "User" && (
+              <>
+                <Link href="">
+                  <a className="hover:opacity-90">HOME</a>
+                </Link>
+                <Link href="">
+                  <a className="hover:opacity-90">ABOUT ME</a>
+                </Link>
+                <Link href="">
+                  <a className="hover:opacity-90">CONTACT ME</a>
+                </Link>
+              </>
+            )}
+            {session && session.user.role === "Administrator" && (
+              <>
+                <Link href="">
+                  <a className="hover:opacity-90">CREATE BLOG</a>
+                </Link>
+                <Link href="">
+                  <a className="hover:opacity-90">CREATE POST</a>
+                </Link>
+              </>
+            )}
+            {session && session.user.role === "Moderator" && (
+              <>
+                <Link href="">
+                  <a className="py-2 hover:opacity-90">USER COMMENTS</a>
+                </Link>
+                <Link href="">
+                  <a className="hover:opacity-90">MODERATED COMMENTS</a>
+                </Link>
+                <Link href="">
+                  <a className="hover:opacity-90">DELETED COMMENTS</a>
+                </Link>
+              </>
+            )}
             <Link href="">
               <a className="hover:opacity-90">SWAGGER API</a>
             </Link>
 
-            {data ? (
-              <Link href="/">
-                <a className="hover:opacity-90">{`Hi, ${data.firstName}!`}</a>
-              </Link>
-            ) : (
+            {!session && (
               <Link href="/register">
                 <a className="hover:opacity-90">REGISTER</a>
               </Link>
             )}
-            {data ? (
+            {session && (
               <Link href="/">
-                <a className="hover:opacity-90">LOGOUT</a>
+                <a className="hover:opacity-90">{`Hi ${session.user.firstName}!`}</a>
               </Link>
-            ) : (
+            )}
+
+            {!session && (
               <Link href="/login">
                 <a className="hover:opacity-90">LOGIN</a>
+              </Link>
+            )}
+            {session && (
+              <Link href="/login">
+                <a className="hover:opacity-90" onClick={logoutHandler}>
+                  LOGOUT
+                </a>
               </Link>
             )}
           </nav>
