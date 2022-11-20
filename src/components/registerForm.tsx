@@ -58,120 +58,118 @@ export default function LoginForm() {
   };
 
   return (
-    <>
-      <div className="container">
-        <h2 className="fw-bold">Register</h2>
-        <div className="row gx-4 gx-lg-5 justify-content-center">
-          <div className="col-md-6 col-lg-6 col-xl-6">
-            <form onSubmit={handleSubmit}>
-              <h3 className="fw-bolder">Create a new account.</h3>
-              <hr />
-              <div className="row">
-                <div className="col-12 col-lg-6">
-                  <div className="form-group mb-2">
-                    <label>First Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      onChange={(e) => setFirstName(e.target.value)}
-                      value={firstName}
-                    />
-                    <span className="text-danger"></span>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 mb-2">
-                  <div className="form-group">
-                    <label>Last Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      onChange={(e) => setLastName(e.target.value)}
-                      value={lastName}
-                    />
-                    <span className="text-danger"></span>
-                  </div>
+    <div className="container">
+      <h2 className="fw-bold">Register</h2>
+      <div className="row gx-4 gx-lg-5 justify-content-center">
+        <div className="col-md-6 col-lg-6 col-xl-6">
+          <form onSubmit={handleSubmit}>
+            <h3 className="fw-bolder">Create a new account.</h3>
+            <hr />
+            <div className="row">
+              <div className="col-12 col-lg-6">
+                <div className="form-group mb-2">
+                  <label className="fw-bold">First Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setFirstName(e.target.value)}
+                    value={firstName}
+                  />
+                  <span className="text-danger"></span>
                 </div>
               </div>
-              <div className="form-group mb-2">
-                <label>Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                />
-                <span className="text-danger"></span>
-              </div>
-              <div className="form-group mb-2">
-                <label>Profile Image</label>
-                <input
-                  name="file"
-                  type="file"
-                  className="form-control"
-                  onChange={(e) => handleImageChange(e)}
-                  accept=".png,.jpg,.bmp,.tif,.gif"
-                />
-                <span className="text-danger"></span>
-              </div>
-              <div className="row">
-                <div className="col-12 col-lg-6">
-                  <div className="form-group mb-2">
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      onChange={(e) => setPassword(e.target.value)}
-                      value={password}
-                    />
-                    <span className="text-danger"></span>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6">
-                  <div className="form-group">
-                    <label>Confirm Password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      value={confirmPassword}
-                    />
-                    <span className="text-danger"></span>
-                  </div>
+              <div className="col-12 col-lg-6 mb-2">
+                <div className="form-group">
+                  <label className="fw-bold">Last Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setLastName(e.target.value)}
+                    value={lastName}
+                  />
+                  <span className="text-danger"></span>
                 </div>
               </div>
+            </div>
+            <div className="form-group mb-2">
+              <label className="fw-bold">Email</label>
+              <input
+                type="email"
+                className="form-control"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+              />
+              <span className="text-danger"></span>
+            </div>
+            <div className="form-group mb-2">
+              <label className="fw-bold">Profile Image</label>
+              <input
+                name="file"
+                type="file"
+                className="form-control"
+                onChange={(e) => handleImageChange(e)}
+                accept=".png,.jpg,.bmp,.tif,.gif"
+              />
+              <span className="text-danger"></span>
+            </div>
+            <div className="row">
+              <div className="col-12 col-lg-6">
+                <div className="form-group mb-2">
+                  <label className="fw-bold">Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                  />
+                  <span className="text-danger"></span>
+                </div>
+              </div>
+              <div className="col-12 col-lg-6">
+                <div className="form-group">
+                  <label className="fw-bold">Confirm password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={confirmPassword}
+                  />
+                  <span className="text-danger"></span>
+                </div>
+              </div>
+            </div>
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="btn btn-primary w-100 my-3"
-              >
-                Register
-              </button>
-              <p className="">
-                {`Already have an account? `}
-                <Link href="/login">
-                  <a className="text-decoration-none">Login</a>
-                </Link>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="btn btn-primary w-100 fw-bold my-3"
+            >
+              Register
+            </button>
+            <p className="fw-bold">
+              {`Already have an account? `}
+              <Link href="/login">
+                <a className="text-primary fw-bold">Login</a>
+              </Link>
+            </p>
+          </form>
+        </div>
+        <div className="col-md-6 col-md-offset-2">
+          <section>
+            <h3 className="fw-bold">Use another service to register.</h3>
+            <hr />
+
+            <div>
+              <p>
+                There are no external authentication services configured. See
+                this <a href="https://next-auth.js.org/"> article</a> for
+                details on setting up this Next.JS application to support
+                logging in via external services.
               </p>
-            </form>
-          </div>
-          <div className="col-md-6 col-md-offset-2">
-            <section>
-              <h3 className="fw-bold">Use another service to register.</h3>
-              <hr />
-
-              <div>
-                <p>
-                  There are no external authentication services configured. See
-                  this <a href="https://next-auth.js.org/"> article</a> for
-                  details on setting up this NEXT.JS application to support
-                  logging in via external services.
-                </p>
-              </div>
-            </section>
-          </div>
+            </div>
+          </section>
         </div>
       </div>
-    </>
+    </div>
   );
 }
