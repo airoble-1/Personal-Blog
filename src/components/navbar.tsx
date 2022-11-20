@@ -1,15 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
-import { sign } from "jsonwebtoken";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 
 // import { useQuery } from "react-query";
 // import { fetchUser } from "../../lib/queries";
 // user data should be taken from state
 // state should change twice once on initial render and 2nd on login
 // set to Sessions + jwt tokens + 1hr exp + refershing + idle timer
-export default function Navbar() {
+export default function MainMenu() {
   // const fetchUser = async () => {
   //   const res = await fetch(`${window.location.origin}/api/user`);
   //   if (!res.ok) {
@@ -38,114 +41,129 @@ export default function Navbar() {
     router.push("/");
     signOut();
   }
+
   return (
-    <header className="sticky top-0 z-10 bg-teal-700 text-white">
-      <section className="mx-auto flex max-w-screen-xl items-center justify-between p-4">
-        <Image
-          className="rounded-full"
-          src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
-          alt="Picture of the blogger"
-          width={70}
-          height={70}
-          placeholder="blur"
-          blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
-        />
-        <h1 className="text-3xl font-medium">
-          <Link href="/">
-            <a>{`Ahmed's Blog`}</a>
-          </Link>
-        </h1>
-        <div>
-          <button
-            id="mobile-open-button"
-            className="text-3xl focus:outline-none sm:hidden"
-          >
-            &#9776;
-          </button>
-          <nav className="hidden space-x-8 text-lg sm:block" aria-label="main">
-            {!session && (
-              <>
-                <Link href="">
-                  <a className="hover:opacity-90">HOME</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">ABOUT ME</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">CONTACT ME</a>
-                </Link>
-              </>
-            )}
-            {session && session.user.role === "User" && (
-              <>
-                <Link href="">
-                  <a className="hover:opacity-90">HOME</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">ABOUT ME</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">CONTACT ME</a>
-                </Link>
-              </>
-            )}
-            {session && session.user.role === "Administrator" && (
-              <>
-                <Link href="">
-                  <a className="hover:opacity-90">CREATE BLOG</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">CREATE POST</a>
-                </Link>
-              </>
-            )}
-            {session && session.user.role === "Moderator" && (
-              <>
-                <Link href="">
-                  <a className="py-2 hover:opacity-90">USER COMMENTS</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">MODERATED COMMENTS</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">DELETED COMMENTS</a>
-                </Link>
-              </>
-            )}
-            <Link href="">
-              <a className="hover:opacity-90">SWAGGER API</a>
-            </Link>
-
-            {!session && (
-              <Link href="/register">
-                <a className="hover:opacity-90">REGISTER</a>
-              </Link>
-            )}
-            {session && (
-              <Link href="/">
-                <a className="hover:opacity-90">{`Hi ${session.user.firstName}!`}</a>
-              </Link>
-            )}
-
-            {!session && (
-              <Link href="/login">
-                <a className="hover:opacity-90">LOGIN</a>
-              </Link>
-            )}
-            {session && (
-              <Link href="/login">
-                <a className="hover:opacity-90" onClick={logoutHandler}>
-                  LOGOUT
-                </a>
-              </Link>
-            )}
-          </nav>
-        </div>
-      </section>
-    </header>
+    <Container>
+      <Navbar bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#features">Features</Nav.Link>
+            <Nav.Link href="#pricing">Pricing</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+    </Container>
   );
 }
 
+{
+  /* <div className="sticky top-0 z-10 bg-transparent text-white">
+<section className="mx-auto flex max-w-screen-xl items-center justify-between p-4">
+  <Image
+    className="rounded-full"
+    src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+    alt="Picture of the blogger"
+    width={70}
+    height={70}
+    placeholder="blur"
+    blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+  />
+  <h1 className="text-3xl font-medium">
+    <Link href="/">
+      <a>{`Ahmed's Blog`}</a>
+    </Link>
+  </h1>
+  <div>
+    <button
+      id="mobile-open-button"
+      className="text-3xl focus:outline-none sm:hidden"
+    >
+      &#9776;
+    </button>
+    <nav className="hidden space-x-8 text-lg sm:block" aria-label="main">
+      {!session && (
+        <>
+          <Link href="">
+            <a className="hover:opacity-90">HOME</a>
+          </Link>
+          <Link href="">
+            <a className="hover:opacity-90">ABOUT ME</a>
+          </Link>
+          <Link href="">
+            <a className="hover:opacity-90">CONTACT ME</a>
+          </Link>
+        </>
+      )}
+      {session && session.user.role === "User" && (
+        <>
+          <Link href="">
+            <a className="hover:opacity-90">HOME</a>
+          </Link>
+          <Link href="">
+            <a className="hover:opacity-90">ABOUT ME</a>
+          </Link>
+          <Link href="">
+            <a className="hover:opacity-90">CONTACT ME</a>
+          </Link>
+        </>
+      )}
+      {session && session.user.role === "Administrator" && (
+        <>
+          <Link href="">
+            <a className="hover:opacity-90">CREATE BLOG</a>
+          </Link>
+          <Link href="">
+            <a className="hover:opacity-90">CREATE POST</a>
+          </Link>
+        </>
+      )}
+      {session && session.user.role === "Moderator" && (
+        <>
+          <Link href="">
+            <a className="py-2 hover:opacity-90">USER COMMENTS</a>
+          </Link>
+          <Link href="">
+            <a className="hover:opacity-90">MODERATED COMMENTS</a>
+          </Link>
+          <Link href="">
+            <a className="hover:opacity-90">DELETED COMMENTS</a>
+          </Link>
+        </>
+      )}
+      <Link href="">
+        <a className="hover:opacity-90">SWAGGER API</a>
+      </Link>
+
+      {!session && (
+        <Link href="/register">
+          <a className="hover:opacity-90">REGISTER</a>
+        </Link>
+      )}
+      {session && (
+        <Link href="/">
+          <a className="hover:opacity-90">{`Hi ${session.user.firstName}!`}</a>
+        </Link>
+      )}
+
+      {!session && (
+        <Link href="/login">
+          <a className="hover:opacity-90">LOGIN</a>
+        </Link>
+      )}
+      {session && (
+        <Link href="/login">
+          <a className="hover:opacity-90" onClick={logoutHandler}>
+            LOGOUT
+          </a>
+        </Link>
+      )}
+    </nav>
+  </div>
+</section>
+</div> */
+}
 {
   /* <nav className="navbar navbar-expand-lg navbar-light px-2" id="mainNav">
   <Image

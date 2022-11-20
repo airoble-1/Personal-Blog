@@ -6,7 +6,7 @@ import { registerMutation } from "../../lib/mutations";
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //const [confirmpassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [selectedFIle, setSelectedFile] = useState<File>();
@@ -49,8 +49,8 @@ export default function LoginForm() {
         password,
         profileImage: data.secure_url,
       });
-
-      if (response.Sucess) router.replace("/");
+      console.log(response);
+      if (response.success) router.push("/");
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -58,83 +58,120 @@ export default function LoginForm() {
   };
 
   return (
-    <section className="h-screen">
-      <div className="h-full px-6 text-gray-800">
-        <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between xl:justify-center">
-          <div className="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:ml-20 xl:w-5/12">
+    <>
+      <div className="container">
+        <h2 className="fw-bold">Register</h2>
+        <div className="row gx-4 gx-lg-5 justify-content-center">
+          <div className="col-md-6 col-lg-6 col-xl-6">
             <form onSubmit={handleSubmit}>
-              <h1 className="mb-4 text-center text-lg">Register</h1>
-
-              {/* <!-- First Name input --> */}
-              <div className="mb-6">
-                <input
-                  type="text"
-                  className="form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="First Name"
-                />
+              <h3 className="fw-bolder">Create a new account.</h3>
+              <hr />
+              <div className="row">
+                <div className="col-12 col-lg-6">
+                  <div className="form-group mb-2">
+                    <label>First Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      onChange={(e) => setFirstName(e.target.value)}
+                      value={firstName}
+                    />
+                    <span className="text-danger"></span>
+                  </div>
+                </div>
+                <div className="col-12 col-lg-6 mb-2">
+                  <div className="form-group">
+                    <label>Last Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      onChange={(e) => setLastName(e.target.value)}
+                      value={lastName}
+                    />
+                    <span className="text-danger"></span>
+                  </div>
+                </div>
               </div>
-
-              {/* <!-- First Name input --> */}
-              <div className="mb-6">
-                <input
-                  type="text"
-                  className="form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Last Name"
-                />
-              </div>
-
-              {/* <!-- Email input --> */}
-              <div className="mb-6">
+              <div className="form-group mb-2">
+                <label>Email</label>
                 <input
                   type="email"
-                  className="form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
+                  className="form-control"
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email address"
+                  value={email}
                 />
+                <span className="text-danger"></span>
               </div>
-
-              {/* <!-- Password input --> */}
-              <div className="mb-6">
-                <input
-                  type="password"
-                  className="form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                />
-              </div>
-
-              <div className="mb-6">
+              <div className="form-group mb-2">
+                <label>Profile Image</label>
                 <input
                   name="file"
                   type="file"
-                  className="form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
+                  className="form-control"
                   onChange={(e) => handleImageChange(e)}
+                  accept=".png,.jpg,.bmp,.tif,.gif"
                 />
+                <span className="text-danger"></span>
+              </div>
+              <div className="row">
+                <div className="col-12 col-lg-6">
+                  <div className="form-group mb-2">
+                    <label>Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      onChange={(e) => setPassword(e.target.value)}
+                      value={password}
+                    />
+                    <span className="text-danger"></span>
+                  </div>
+                </div>
+                <div className="col-12 col-lg-6">
+                  <div className="form-group">
+                    <label>Confirm Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      value={confirmPassword}
+                    />
+                    <span className="text-danger"></span>
+                  </div>
+                </div>
               </div>
 
-              <div className="text-center lg:text-left">
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="inline-block rounded bg-blue-600 px-7 py-3 text-sm font-medium uppercase leading-snug text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
-                >
-                  Register
-                </button>
-                <p className="mt-2 mb-0 pt-1 text-sm font-semibold">
-                  {`Already have an account? `}
-                  <Link href="/login">
-                    <a className="text-blue-600 transition duration-200 ease-in-out hover:text-blue-700 focus:text-blue-700">
-                      Login
-                    </a>
-                  </Link>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="btn btn-primary w-100 my-3"
+              >
+                Register
+              </button>
+              <p className="">
+                {`Already have an account? `}
+                <Link href="/login">
+                  <a className="text-decoration-none">Login</a>
+                </Link>
+              </p>
+            </form>
+          </div>
+          <div className="col-md-6 col-md-offset-2">
+            <section>
+              <h3 className="fw-bold">Use another service to register.</h3>
+              <hr />
+
+              <div>
+                <p>
+                  There are no external authentication services configured. See
+                  this <a href="https://next-auth.js.org/"> article</a> for
+                  details on setting up this NEXT.JS application to support
+                  logging in via external services.
                 </p>
               </div>
-            </form>
+            </section>
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 }

@@ -27,29 +27,32 @@ const registerHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const token = jwt.sign(
-    {
-      email: user.email,
-      id: user.id,
-      role: user.role,
-      createdAt: Date.now(),
-    },
-    env.JWT_SECRET,
-    { expiresIn: "8h" }
-  );
+  // const token = jwt.sign(
+  //   {
+  //     email: user.email,
+  //     id: user.id,
+  //     role: user.role,
+  //     createdAt: Date.now(),
+  //   },
+  //   env.JWT_SECRET,
+  //   { expiresIn: "8h" }
+  // );
 
-  res.setHeader(
-    "Set-Cookie",
-    cookie.serialize(env.COOKIE_NAME, token, {
-      httpOnly: true, // prevents JS access
-      maxAge: 8 * 60 * 60, // milliseconds
-      path: "/",
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-    })
-  );
+  // res.setHeader(
+  //   "Set-Cookie",
+  //   cookie.serialize(env.COOKIE_NAME, token, {
+  //     httpOnly: true, // prevents JS access
+  //     maxAge: 8 * 60 * 60, // milliseconds
+  //     path: "/",
+  //     sameSite: "lax",
+  //     secure: process.env.NODE_ENV === "production",
+  //   })
+  // );
 
-  res.status(201).json({ message: "User created!" });
+  res.status(201).json({
+    success: true,
+    message: "User created!",
+  });
 };
 
 export default registerHandler;

@@ -31,6 +31,9 @@ export default NextAuth({
   session: {
     strategy: "jwt",
   },
+  jwt: {
+    maxAge: 60 * 60 * 8,
+  },
   providers: [
     CredentialsProvider({
       type: "credentials",
