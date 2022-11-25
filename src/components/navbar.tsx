@@ -1,34 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
-import { sign } from "jsonwebtoken";
 import { useRouter } from "next/router";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 
-// import { useQuery } from "react-query";
-// import { fetchUser } from "../../lib/queries";
-// user data should be taken from state
-// state should change twice once on initial render and 2nd on login
-// set to Sessions + jwt tokens + 1hr exp + refershing + idle timer
-export default function Navbar() {
-  // const fetchUser = async () => {
-  //   const res = await fetch(`${window.location.origin}/api/user`);
-  //   if (!res.ok) {
-  //     throw new Error("failed to fetch user data");
-  //   }
-  //   console.log("res: ", res);
-  //   return await res.json();
-  // };
-  // const { isLoading, isError, data, error } = useQuery(["user"], fetchUser);
-
-  // if (isLoading) {
-  //   return <span>Loading...</span>;
-  // }
-
-  // if (isError) {
-  // }
-
-  // console.log("error: ", error);
-  // console.log("data: ", data);
+export default function MainMenu() {
   const router = useRouter();
   const { data: session, status } = useSession();
 
@@ -38,190 +16,170 @@ export default function Navbar() {
     router.push("/");
     signOut();
   }
+
   return (
-    <header className="sticky top-0 z-10 bg-teal-700 text-white">
-      <section className="mx-auto flex max-w-screen-xl items-center justify-between p-4">
-        <Image
-          className="rounded-full"
-          src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
-          alt="Picture of the blogger"
-          width={70}
-          height={70}
-          placeholder="blur"
-          blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
-        />
-        <h1 className="text-3xl font-medium">
-          <Link href="/">
-            <a>{`Ahmed's Blog`}</a>
-          </Link>
-        </h1>
-        <div>
-          <button
-            id="mobile-open-button"
-            className="text-3xl focus:outline-none sm:hidden"
-          >
-            &#9776;
-          </button>
-          <nav className="hidden space-x-8 text-lg sm:block" aria-label="main">
+    <Nav
+      className="navbar navbar-expand-lg navbar-light bg-secondary fs-4"
+      id="mainNav"
+    >
+      <Container className="px-lg-5 container px-4">
+        <Link href="/">
+          <a>
+            <Navbar.Brand>
+              <Image
+                className="rounded-circle"
+                src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+                alt="Picture of the blogger"
+                width={70}
+                height={70}
+                placeholder="blur"
+                blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+              />
+            </Navbar.Brand>
+          </a>
+        </Link>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse className="" id="responsive-navbar-nav">
+          <Nav className="d-flex w-100 justify-content-between">
             {!session && (
-              <>
-                <Link href="">
-                  <a className="hover:opacity-90">HOME</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">ABOUT ME</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">CONTACT ME</a>
-                </Link>
-              </>
+              <ul className="d-flex justify-content-between list-unstyled">
+                <li className="nav-item px-3">
+                  <Link href="/">
+                    <a className="text-decoration-none fw-bolder text-uppercase  text-white">
+                      Home
+                    </a>
+                  </Link>
+                </li>
+                <li className="px-3">
+                  <Link href="/about">
+                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                      About Me
+                    </a>
+                  </Link>
+                </li>
+                <li className="px-3">
+                  <Link href="/contact">
+                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                      Contact Me
+                    </a>
+                  </Link>
+                </li>
+              </ul>
             )}
             {session && session.user.role === "User" && (
-              <>
-                <Link href="">
-                  <a className="hover:opacity-90">HOME</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">ABOUT ME</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">CONTACT ME</a>
-                </Link>
-              </>
+              <ul className="d-flex justify-content-between list-unstyled">
+                <li className="px-3">
+                  <Link href="/">
+                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                      Home
+                    </a>
+                  </Link>
+                </li>
+                <li className="nav-item px-3">
+                  <Link href="/about">
+                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                      About Me
+                    </a>
+                  </Link>
+                </li>
+                <li className="nav-item px-3">
+                  <Link href="/contact">
+                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                      Contact Me
+                    </a>
+                  </Link>
+                </li>
+              </ul>
             )}
             {session && session.user.role === "Administrator" && (
-              <>
-                <Link href="">
-                  <a className="hover:opacity-90">CREATE BLOG</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">CREATE POST</a>
-                </Link>
-              </>
+              <ul className="d-flex justify-content-between list-unstyled mx-5">
+                <li className="nav-item px-3">
+                  <Link href="/">
+                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                      create blog
+                    </a>
+                  </Link>
+                </li>
+                <li className="nav-item px-3">
+                  <Link href="/about">
+                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                      create post
+                    </a>
+                  </Link>
+                </li>
+              </ul>
             )}
             {session && session.user.role === "Moderator" && (
-              <>
-                <Link href="">
-                  <a className="py-2 hover:opacity-90">USER COMMENTS</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">MODERATED COMMENTS</a>
-                </Link>
-                <Link href="">
-                  <a className="hover:opacity-90">DELETED COMMENTS</a>
-                </Link>
-              </>
+              <ul className="d-flex justify-content-between list-unstyled mx-5">
+                <li className="nav-item px-3">
+                  <Link href="/">
+                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                      user comments
+                    </a>
+                  </Link>
+                </li>
+                <li className="nav-item px-3">
+                  <Link href="/about">
+                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                      moderated comments
+                    </a>
+                  </Link>
+                </li>
+                <li className="nav-item px-3">
+                  <Link href="/contact">
+                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                      deleted comments
+                    </a>
+                  </Link>
+                </li>
+              </ul>
             )}
-            <Link href="">
-              <a className="hover:opacity-90">SWAGGER API</a>
-            </Link>
-
-            {!session && (
-              <Link href="/register">
-                <a className="hover:opacity-90">REGISTER</a>
-              </Link>
-            )}
-            {session && (
-              <Link href="/">
-                <a className="hover:opacity-90">{`Hi ${session.user.firstName}!`}</a>
-              </Link>
-            )}
-
-            {!session && (
-              <Link href="/login">
-                <a className="hover:opacity-90">LOGIN</a>
-              </Link>
-            )}
-            {session && (
-              <Link href="/login">
-                <a className="hover:opacity-90" onClick={logoutHandler}>
-                  LOGOUT
+            <ul className="d-flex justify-content-between list-unstyled mx-3">
+              <li className="nav-item px-3"></li>
+              <Link href="/swagger">
+                <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                  Swagger API
                 </a>
               </Link>
+            </ul>
+            {!session && (
+              <ul className="d-flex list-unstyled justify-content-between">
+                <li className="nav-item px-3"></li>
+                <Link href="/register">
+                  <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                    register
+                  </a>
+                </Link>
+                <li className="nav-item px-3"></li>
+                <Link href="/login">
+                  <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                    login
+                  </a>
+                </Link>
+              </ul>
             )}
-          </nav>
-        </div>
-      </section>
-    </header>
+            {session && (
+              <ul className="d-flex list-unstyled justify-content-between">
+                <li className="nav-item px-3"></li>
+                <Link href="/register">
+                  <a className="text-decoration-none fw-bolder  text-white">
+                    {`Hi ${session.user.firstName}!`}
+                  </a>
+                </Link>
+                <li className="nav-item px-3"></li>
+                <Link href="/">
+                  <a
+                    onClick={logoutHandler}
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    logout
+                  </a>
+                </Link>
+              </ul>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Nav>
   );
-}
-
-{
-  /* <nav className="navbar navbar-expand-lg navbar-light px-2" id="mainNav">
-  <Image
-    className="rounded-5"
-    src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
-    alt="Picture of the blogger"
-    width={70}
-    height={70}
-    placeholder="blur"
-    blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1642828025/cocktail_db_screenshot_l6mfpj.jpg"
-  />
-  <div className="px-lg-5 container px-4">
-    <Link href="/">
-      <a className="navbar-brand" href="#">
-        Ahmed&#39;s IT Blog
-      </a>
-    </Link>
-    <button
-      className="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarResponsive"
-      aria-controls="navbarResponsive"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      Menu
-      <i className="fas fa-bars"></i>
-    </button>
-    <div
-      className="collapse navbar-collapse d-flex justify-content-center"
-      id="navbarResponsive"
-    >
-      <div className="mx-5">
-        <ul className="navbar-nav ms-auto py-lg-0 py-5">
-          <li className="nav-item">
-            <Link href="/">
-              <a className="nav-link px-lg-3 py-lg-4 py-3">HOME</a>
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link href="/About-me">
-              <a className="nav-link px-lg-3 py-lg-4 py-3">ABOUT ME</a>
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link href="/Contact-me">
-              <a className="nav-link px-lg-3 py-lg-4 py-3">CONTACT ME</a>
-            </Link>
-          </li>
-        </ul>
-      </div>
-      <div className="mx-5">
-        <ul className="navbar-nav ms-auto py-lg-0 py-5">
-          <li className="nav-item">
-            <Link href="/Swagger-api">
-              <a className="nav-link px-lg-3 py-lg-4 py-3">SWAGGER API</a>
-            </Link>
-          </li>
-        </ul>
-      </div>
-      <div className="mx-5">
-        <ul className="navbar-nav ms-auto py-lg-0 py-5">
-          <li className="nav-item">
-            <Link href="/register">
-              <a className="nav-link px-lg-3 py-lg-4 py-3">REGISTER</a>
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link href="/login">
-              <a className="nav-link px-lg-3 py-lg-4 py-3">LOGIN</a>
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</nav>; */
 }

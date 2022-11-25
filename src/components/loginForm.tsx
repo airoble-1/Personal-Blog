@@ -19,65 +19,99 @@ export default function LoginForm() {
       password,
     });
     console.log("result: ", result);
-    if (!result.error) router.replace("/");
+    if (!result.error) router.push("/");
     setIsLoading(false);
   }
 
   return (
-    <section className="h-screen">
-      <div className="h-full px-6 text-gray-800">
-        <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between xl:justify-center">
-          <div className="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:ml-20 xl:w-5/12">
-            <form onSubmit={handleSubmit}>
-              <h1 className="mb-4 text-center text-lg">Sign in</h1>
-
-              {/* <!-- Email input --> */}
-              <div className="mb-6">
-                <input
-                  type="email"
-                  className="form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email address"
-                />
-              </div>
-
-              {/* <!-- Password input --> */}
-              <div className="mb-6">
-                <input
-                  type="password"
-                  className="form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                />
-              </div>
-
-              <div className="mb-6 flex items-center justify-between">
-                <a href="#!" className="text-gray-800">
-                  Forgot password?
+    <div className="container">
+      <h2 className="fw-bold">Login</h2>
+      <div className="row gx-4 gx-lg-5 justify-content-center">
+        <div className="col-md-6 col-lg-6 col-xl-6">
+          <form onSubmit={handleSubmit}>
+            <h3 className="fw-bolder">Use a local account to login.</h3>
+            <hr />
+            <div className="form-group mb-2">
+              <label className="fw-bold">Email</label>
+              <input
+                type="email"
+                className="form-control fw-bold"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+              />
+              <span className="text-danger"></span>
+            </div>
+            <div className="form-group mb-2">
+              <label className="fw-bold">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
+              <span className="text-danger"></span>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+              />
+              <label
+                className="form-check-label fw-bold"
+                htmlFor="flexCheckDefault"
+              >
+                Remember me?
+              </label>
+            </div>
+            <p className="">
+              <Link href="/">
+                <a className="text-secondary fw-bold">Forgot your password?</a>
+              </Link>
+            </p>
+            <p className="">
+              <Link href="/">
+                <a className="text-secondary fw-bold">Register as a new user</a>
+              </Link>
+            </p>
+            <p className="">
+              <Link href="/login">
+                <a className="text-secondary fw-bold">
+                  Resend email confirmation
                 </a>
-              </div>
-
-              <div className="text-center lg:text-left">
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="inline-block rounded bg-blue-600 px-7 py-3 text-sm font-medium uppercase leading-snug text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
-                >
-                  Login
-                </button>
-                <p className="mt-2 mb-0 pt-1 text-sm font-semibold">
-                  {`Don't have an account? `}
-                  <Link href="/register">
-                    <a className="text-red-600 transition duration-200 ease-in-out hover:text-red-700 focus:text-red-700">
-                      Register
-                    </a>
-                  </Link>
-                </p>
-              </div>
-            </form>
-          </div>
+              </Link>
+            </p>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="btn btn-secondary w-100 fw-bold my-2"
+            >
+              Register
+            </button>
+            <p className="fw-bold">
+              {`Already have an account? `}
+              <Link href="/login">
+                <a className="text-decoration-none">Login</a>
+              </Link>
+            </p>
+          </form>
+        </div>
+        <div className="col-md-6 col-md-offset-2">
+          <section>
+            <h3 className="fw-bold">Use another service to login.</h3>
+            <hr />
+            <div>
+              <p>
+                There are no external authentication services configured. See
+                this <a href="https://next-auth.js.org/"> article</a> for
+                details on setting up this Next.JS application to support
+                logging in via external services.
+              </p>
+            </div>
+          </section>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
