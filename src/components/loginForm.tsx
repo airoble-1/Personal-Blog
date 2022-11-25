@@ -101,12 +101,11 @@ export default function LoginForm() {
           <section>
             <h3 className="fw-bold">Use another service to login.</h3>
             <hr />
-
             <div>
               <p>
                 There are no external authentication services configured. See
                 this <a href="https://next-auth.js.org/"> article</a> for
-                details on setting up this NEXT.JS application to support
+                details on setting up this Next.JS application to support
                 logging in via external services.
               </p>
             </div>

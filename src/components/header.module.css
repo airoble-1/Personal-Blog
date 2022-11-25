@@ -1,0 +1,52 @@
+.hero {
+  margin-bottom: 4rem;
+  min-height: 600px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+
+.content {
+  background: url("https://res.cloudinary.com/dlwqjptsg/image/upload/v1666477092/coding_k8mjcu.jpg")
+    no-repeat;
+  background-size: center center cover;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.wrapper {
+  padding: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search {
+  background-color: #e6e6e6;
+  border-radius: 0;
+  padding: 10px 20px;
+  z-index: 999;
+  border: 0;
+  display: inline-block;
+  width: 50%;
+  border-bottom-left-radius: 40px;
+  border-top-left-radius: 40px;
+}
+
+.searchForm button {
+  font-weight: 700;
+  background-color: orange;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px 20px;
+  border: 0;
+  border-bottom-right-radius: 40px;
+  border-top-right-radius: 40px;
+}
