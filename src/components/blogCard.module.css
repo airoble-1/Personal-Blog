@@ -1,0 +1,11 @@
+.cardTitle {
+  padding: 1rem 1.5rem;
+  background-color: orange;
+  color: black;
+  font-weight: 800;
+  font-size: x-large;
+  text-transform: capitalize;
+  border: 0;
+  border-top: solid black 4px;
+  border-bottom: solid black 4px;
+}
