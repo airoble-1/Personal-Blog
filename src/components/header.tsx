@@ -14,7 +14,7 @@ export default function Header() {
           <form className={styles.searchForm}>
             <input
               placeholder="search for a blog or post"
-              className={styles.search}
+              className={`${styles.search}`}
               type="text"
             />
             <button type="submit">Search</button>

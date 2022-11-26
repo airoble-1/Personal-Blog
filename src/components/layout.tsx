@@ -3,6 +3,7 @@ import Footer from "./footer";
 import { FC, ReactNode } from "react";
 import Head from "next/head";
 import Header from "./header";
+import BlogCard from "./blogCard";
 
 interface Props {
   children?: ReactNode;
@@ -18,7 +19,9 @@ const Layout: FC<Props> = ({ children }) => {
       </Head>
       <Navbar />
       <Header />
-      <main>{children}</main>
+      <main>
+        <BlogCard />
+      </main>
       <Footer />
     </>
   );
