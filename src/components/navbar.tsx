@@ -13,13 +13,12 @@ export default function MainMenu() {
   console.log("session: ", session);
   console.log("status: ", status);
   function logoutHandler() {
-    router.push("/");
-    signOut();
+    signOut({ redirect: true, callbackUrl: "/" });
   }
 
   return (
     <Nav
-      className="navbar navbar-expand-lg navbar-light bg-secondary fs-4"
+      className="navbar navbar-expand-lg navbar-light bg-secondary fs-5"
       id="mainNav"
     >
       <Container className="px-lg-5 container px-4">
@@ -94,7 +93,7 @@ export default function MainMenu() {
             {session && session.user.role === "Administrator" && (
               <ul className="d-flex justify-content-between list-unstyled mx-5">
                 <li className="nav-item px-3">
-                  <Link href="/">
+                  <Link href="/blog/create">
                     <a className="text-decoration-none fw-bolder text-uppercase text-white">
                       create blog
                     </a>

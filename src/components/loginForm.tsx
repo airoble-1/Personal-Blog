@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FormEventHandler, SyntheticEvent, useState } from "react";
-import { loginMutation } from "../../lib/mutations";
+import React, { SyntheticEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
@@ -87,7 +86,7 @@ export default function LoginForm() {
               disabled={isLoading}
               className="btn btn-secondary w-100 fw-bold my-2"
             >
-              Register
+              Login
             </button>
             <p className="fw-bold">
               {`Already have an account? `}

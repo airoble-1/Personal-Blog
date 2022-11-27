@@ -50,8 +50,8 @@ export default function LoginForm() {
         profileImage: data.secure_url,
       });
       console.log(response);
-      if (response.success) router.push("/");
       setIsLoading(false);
+      if (response.success) router.push("/");
     } catch (error) {
       console.log(error);
     }
