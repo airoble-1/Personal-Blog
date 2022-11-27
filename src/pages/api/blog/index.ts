@@ -8,12 +8,11 @@ export default nc()
     res.json({ message: " get all posts" });
   })
   .post(async (req: NextApiRequest, res: NextApiResponse) => {
-    const { name, description, featureimage } = req.body;
-    console.log("data: ", `${name}${description}${featureimage}`);
     const token = await getToken({ req });
-    if (token) {
-      // Signed in
-      console.log("JSON Web Token", token);
+    if (token?.role === "Administrator") {
+      const { name, description, featureimage } = req.body;
+      console.log("data: ", `${name}${description}${featureimage}`);
+
       const post = await prisma.blog.create({
         data: {
           name,
@@ -24,8 +23,13 @@ export default nc()
       });
     } else {
       // Not Signed in
-      res.status(401);
+      res.status(401).json({
+        success: false,
+        message: "Not authorized!",
+      });
+      return;
     }
+
     res.status(201).json({
       success: true,
       message: "post created!",

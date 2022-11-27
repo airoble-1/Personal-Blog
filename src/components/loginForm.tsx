@@ -1,16 +1,27 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { SyntheticEvent, useState } from "react";
+import React, { useState } from "react";
 import { signIn } from "next-auth/react";
+import { useForm } from "react-hook-form";
+
+type Formvalues = {
+  email: string;
+  password: string;
+};
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
-  async function handleSubmit(e: SyntheticEvent) {
-    e.preventDefault();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<Formvalues>();
+  async function submitHandler(data) {
+    const { email, password } = data;
+    // e.preventDefault();
     setIsLoading(true);
     const result = await signIn("credentials", {
       redirect: false,
@@ -27,7 +38,7 @@ export default function LoginForm() {
       <h2 className="fw-bold">Login</h2>
       <div className="row gx-4 gx-lg-5 justify-content-center">
         <div className="col-md-6 col-lg-6 col-xl-6">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit((data) => submitHandler(data))}>
             <h3 className="fw-bolder">Use a local account to login.</h3>
             <hr />
             <div className="form-group mb-2">
@@ -35,20 +46,28 @@ export default function LoginForm() {
               <input
                 type="email"
                 className="form-control fw-bold"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                {...register("email", {
+                  required: "Email is required",
+                })}
+                // onChange={(e) => setEmail(e.target.value)}
+                // value={email}
               />
-              <span className="text-danger"></span>
+              {errors.email && (
+                <span className="text-danger">{errors.email.message}</span>
+              )}
             </div>
             <div className="form-group mb-2">
               <label className="fw-bold">Password</label>
               <input
                 type="password"
                 className="form-control"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
+                {...register("password", { required: "Password is required" })}
+                // onChange={(e) => setPassword(e.target.value)}
+                // value={password}
               />
-              <span className="text-danger"></span>
+              {errors.password && (
+                <span className="text-danger">{errors.password.message}</span>
+              )}
             </div>
             <div className="form-check">
               <input
