@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
+import BlogCardContainer from "../components/blogCard";
 
 const Home: NextPage = () => {
-  return <div>Home Page</div>;
+  return <BlogCardContainer />;
 };
 
 export default Home;
