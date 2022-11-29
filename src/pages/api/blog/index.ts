@@ -5,7 +5,9 @@ import { getToken } from "next-auth/jwt";
 
 export default nc()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
-    res.json({ message: " get all posts" });
+    const blogs = await prisma.blog.findMany();
+    console.log(blogs);
+    res.json({ blogs });
   })
   .post(async (req: NextApiRequest, res: NextApiResponse) => {
     const token = await getToken({ req });
