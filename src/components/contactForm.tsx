@@ -126,12 +126,12 @@ export default function ContactPage() {
                     minLength: {
                       value: 2,
                       message:
-                        "The smessage must be at least 2 to 100 characters long.",
+                        "The smessage must be at least 2 to 500 characters long.",
                     },
                     maxLength: {
-                      value: 100,
+                      value: 500,
                       message:
-                        "The subject must be at least 2 to 100 characters long.",
+                        "The subject must be at least 2 to 500 characters long.",
                     },
                   })}
                 ></textarea>
