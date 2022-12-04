@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const { req } = ctx;
     const token = await getToken({ req });
-    console.log("JSON Web Token", token);
+
     // const payload = validateToken(
     //   ctx.req.cookies["next-auth.session-token"] as string
     // );

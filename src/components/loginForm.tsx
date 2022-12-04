@@ -28,7 +28,6 @@ export default function LoginForm() {
       email,
       password,
     });
-    console.log("result: ", result);
     if (!result.error) router.push("/");
     setIsLoading(false);
   }

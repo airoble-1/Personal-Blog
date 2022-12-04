@@ -10,8 +10,6 @@ export default function MainMenu() {
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  console.log("session: ", session);
-  console.log("status: ", status);
   function logoutHandler() {
     signOut({ redirect: true, callbackUrl: "/" });
   }

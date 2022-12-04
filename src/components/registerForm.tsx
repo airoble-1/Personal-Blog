@@ -40,7 +40,7 @@ export default function LoginForm() {
     setIsLoading(true);
     try {
       const data = await uploadFile();
-      console.log(data);
+
       if (!data) return;
       const response = await registerMutation("register", {
         firstName,
@@ -49,7 +49,7 @@ export default function LoginForm() {
         password,
         profileImage: data.secure_url,
       });
-      console.log(response);
+
       setIsLoading(false);
       if (response.success) router.push("/");
     } catch (error) {

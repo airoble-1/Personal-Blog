@@ -6,14 +6,12 @@ import { getToken } from "next-auth/jwt";
 export default nc()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
     const blogs = await prisma.blog.findMany();
-    console.log(blogs);
     res.json({ blogs });
   })
   .post(async (req: NextApiRequest, res: NextApiResponse) => {
     const token = await getToken({ req });
     if (token?.role === "Administrator") {
       const { name, description, featureimage } = req.body;
-      console.log("data: ", `${name}${description}${featureimage}`);
 
       const post = await prisma.blog.create({
         data: {

@@ -50,7 +50,7 @@ const Home: NextPage = () => {
     setIsLoading(true);
     try {
       const fileData = await uploadFile(userData);
-      console.log("upload data: ", fileData);
+
       if (!fileData) return;
       const response = await fetch(`${window.location.origin}/api/blog`, {
         method: "POST",

@@ -21,7 +21,7 @@ export default function BlogCard({ blog }) {
             {blog.name}
           </h5>
           <p className="card-text">
-            {blog.description.length > 80
+            {blog.description.length > 50
               ? blog.description.substring(0, 100) + "..."
               : blog.description}
           </p>
