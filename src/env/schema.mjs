@@ -20,6 +20,12 @@ export const serverSchema = z.object({
   DISCORD_CLIENT_SECRET: z.string(),
   JWT_SECRET: z.string(),
   COOKIE_NAME: z.string(),
+  // EMAIL_SMTP_HOST: z.string(),
+  // EMAIL_SMTP_PORT: z.number().positive(),
+  // EMAIL_SMTP_USER: z.string(),
+  // EMAIL_SMTP_PASS: z.string(),
+  // EMAIL_ADDRESS_FROM: z.string(),
+  // EMAIL_ADDRESS_REPLY: z.string(),
 });
 
 /**
