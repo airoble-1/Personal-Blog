@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { AiOutlineMail, AiOutlinePhone } from "react-icons/ai";
+import { env } from "../env/client.mjs";
+
 type Formvalues = {
   name: string;
   email: string;
@@ -84,7 +86,7 @@ export default function ContactPage() {
                 </div>
 
                 <iframe
-                  src="https://www.google.com/maps/embed/v1/place?q=Toronto,+ON,+Canada&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+                  src={`https://www.google.com/maps/embed/v1/place?q=Toronto,+ON,+Canada&key=${env.NEXT_PUBLIC_GOOGLE_API_KEY}`}
                   frameBorder="0"
                   style={{ border: 0, width: "100%", height: "290px" }}
                   allowFullScreen
