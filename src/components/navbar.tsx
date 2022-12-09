@@ -98,7 +98,7 @@ export default function MainMenu() {
                   </Link>
                 </li>
                 <li className="nav-item px-3">
-                  <Link href="/about">
+                  <Link href="/Posts/Create">
                     <a className="text-decoration-none fw-bolder text-uppercase text-white">
                       create post
                     </a>
