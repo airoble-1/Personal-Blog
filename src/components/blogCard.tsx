@@ -48,7 +48,7 @@ export default function BlogCard({ blog }) {
                   read posts
                 </a>
               </Link>
-              <Link href="#">
+              <Link href={`Posts/Create/${blog.id}`}>
                 <a className="btn w-75 btn-secondary text-uppercase fw-bold d-inline-block mb-2 text-white">
                   create post
                 </a>

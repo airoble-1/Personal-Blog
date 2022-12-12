@@ -1,10 +1,12 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState, useRef, MutableRefObject } from "react";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import Select from "react-select";
+import slugify from "slugify";
+import blog from "../pages/api/blog";
 
 type Formvalues = {
   name: number;
@@ -86,32 +88,36 @@ export default function CreatePostForm({ blogs, blogId }) {
     }
   };
   async function submitHandler(userData) {
-    console.log(userData);
     const { name, title, abstract, content, tags, readyStatus } = userData;
     setIsLoading(true);
     try {
       const fileData = await uploadFile(userData);
 
       if (!fileData) return;
+      const postData = {
+        blogId: blogId ? +blogId : +name,
+        title,
+        abstract,
+        content,
+        featureImage: fileData.secure_url,
+        tags: tags.map((tag) => tag.value),
+        readyStatus: 2,
+      };
       const response = await fetch(`${window.location.origin}/api/post`, {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name,
-          title,
-          abstract,
-          content,
-          image: fileData.secure_url,
-          tags,
-          readyStatus,
-        }),
+
+        body: JSON.stringify(postData),
       });
+
       setIsLoading(false);
       const data = await response.json();
-      if (data.message) router.push("/");
+      if (data.success) {
+        router.push("/");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -130,20 +136,31 @@ export default function CreatePostForm({ blogs, blogId }) {
               <label className="control-label fw-bold fs-5 mb-2">
                 Blog Name
               </label>
-              <select
-                {...register("name", {
-                  required: "Blog name is required",
-                })}
-                className="form-control form-select"
-                disabled={blogId}
-              >
-                <option value="">Choose a blog...</option>
-                {blogs.map((blog) => (
-                  <option key={uuidv4()} value={blog.id}>
-                    {blog.name}
-                  </option>
-                ))}
-              </select>
+              {!blogId && (
+                <select
+                  {...register("name", {
+                    required: "Blog name is required",
+                  })}
+                  className="form-control form-select"
+                >
+                  <option value="">Choose a blog...</option>
+                  {!blogId &&
+                    blogs.map((blog) => (
+                      <option key={uuidv4()} value={blog.id}>
+                        {blog.name}
+                      </option>
+                    ))}
+                </select>
+              )}
+              {blogId && (
+                <select
+                  className="form-control form-select"
+                  disabled={blogId}
+                  value={blogs.id}
+                >
+                  <option value={blogs.id}>{blogs.name}</option>
+                </select>
+              )}
               {errors.name && (
                 <div className="text-danger">{errors.name.message}</div>
               )}

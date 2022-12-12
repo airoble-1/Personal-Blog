@@ -3,7 +3,6 @@ import BlogCard from "../components/blogCard";
 import { v4 as uuidv4 } from "uuid";
 
 function Home({ data }) {
-  console.log(data);
   return (
     <BlogCardContainer>
       {data.map((blog) => (
