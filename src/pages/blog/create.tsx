@@ -22,7 +22,7 @@ const Home: NextPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Formvalues>();
-  console.log(errors);
+
   // const handleImageChange = function (data) {
   //   const fileList = e.target.files;
   //   if (!fileList) return;
@@ -65,10 +65,12 @@ const Home: NextPage = () => {
         }),
       });
       setIsLoading(false);
+      if (!response.ok) throw Error("Failed to create post");
       const data = await response.json();
       if (data.message) router.push("/");
     } catch (error) {
-      console.log(error);
+      setIsLoading(false);
+      console.log("sadsadsa:");
     }
   }
   return (
