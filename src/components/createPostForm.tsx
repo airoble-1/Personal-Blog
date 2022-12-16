@@ -101,7 +101,7 @@ export default function CreatePostForm({ blogs, blogId }) {
         content,
         featureImage: fileData.secure_url,
         tags: tags.map((tag) => tag.value),
-        readyStatus: 2,
+        readyStatus: readyStatus,
       };
       const response = await fetch(`${window.location.origin}/api/post`, {
         method: "POST",
