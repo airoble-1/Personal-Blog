@@ -70,7 +70,7 @@ const Home: NextPage = () => {
       if (data.message) router.push("/");
     } catch (error) {
       setIsLoading(false);
-      console.log("sadsadsa:");
+      console.log("Error: Unable to create post");
     }
   }
   return (

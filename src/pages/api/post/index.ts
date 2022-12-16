@@ -7,8 +7,10 @@ import slugify from "slugify";
 import { text } from "stream/consumers";
 export default nc()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
-    const blogs = await prisma.blog.findMany();
-    res.json({ blogs });
+    const { id } = req.query;
+    const blogId = +id;
+    const posts = await prisma.post.findMany();
+    res.json({ posts });
   })
   .post(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
