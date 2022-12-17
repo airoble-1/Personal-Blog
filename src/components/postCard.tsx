@@ -22,7 +22,7 @@ export default function BlogCard({ post }) {
           {!session && (
             <Link href={`/BlogPost/${post.slug}`}>
               <a className="btn w-75 btn-secondary text-uppercase fw-bold d-inline-block mb-2 text-white">
-                read posts
+                read more
               </a>
             </Link>
           )}
@@ -31,7 +31,7 @@ export default function BlogCard({ post }) {
               session.user.role === "Moderator") && (
               <Link href={`Posts/BlogPostIndex/${post.id}`}>
                 <a className="btn w-75 btn-secondary text-uppercase fw-bold d-inline-block mb-2 text-white">
-                  read posts
+                  read more
                 </a>
               </Link>
             )}
@@ -39,7 +39,7 @@ export default function BlogCard({ post }) {
             <>
               <Link href={`/BlogPost/${post.slug}`}>
                 <a className="btn w-75 btn-secondary text-uppercase fw-bold d-inline-block mb-2 text-white">
-                  read posts
+                  read more
                 </a>
               </Link>
               <Link href={`/Posts/Edit/${post.id}`}>
