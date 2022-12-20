@@ -55,8 +55,8 @@ model Comment {
     id             Int             @id @default(autoincrement())
     createdAt      DateTime        @default(now())
     updatedAt      DateTime        @updatedAt
-    moderated      DateTime
-    deleted        DateTime
+    moderated      DateTime?
+    deleted        DateTime?
     post           Post            @relation(fields: [postId], references: [id])
     postId         Int
     author         User            @relation(fields: [authorId], references: [id])
