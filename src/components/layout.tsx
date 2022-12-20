@@ -19,6 +19,7 @@ const Layout: FC<Props> = ({ children }) => {
       <Navbar />
       <Header />
       <main>{children}</main>
+      <hr />
       <Footer />
     </>
   );

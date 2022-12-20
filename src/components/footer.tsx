@@ -6,7 +6,7 @@ import {
 
 export default function Footer() {
   return (
-    <div className="border-top w-100 container mt-5">
+    <div className=" w-100 container mt-3">
       <footer className=" mx-auto py-4">
         <div className="px-lg-5 container px-4">
           <div className="row justify-content-center">
