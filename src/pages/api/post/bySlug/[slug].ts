@@ -8,25 +8,6 @@ export default nc().get(async (req: NextApiRequest, res: NextApiResponse) => {
     where: {
       slug: slug as string,
     },
-    include: {
-      comments: {
-        include: {
-          author: {
-            select: {
-              firstName: true,
-              lastName: true,
-              profileImage: true,
-            },
-          },
-          moderator: {
-            select: {
-              firstName: true,
-              lastName: true,
-            },
-          },
-        },
-      },
-    },
   });
   res.json({ post });
 });

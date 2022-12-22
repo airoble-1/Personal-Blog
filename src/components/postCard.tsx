@@ -29,7 +29,7 @@ export default function BlogCard({ post }) {
           {session &&
             (session.user.role === "User" ||
               session.user.role === "Moderator") && (
-              <Link href={`Posts/BlogPostIndex/${post.id}`}>
+              <Link href={`/BlogPost/${post.slug}`}>
                 <a className="btn w-75 btn-secondary text-uppercase fw-bold d-inline-block mb-2 text-white">
                   read more
                 </a>

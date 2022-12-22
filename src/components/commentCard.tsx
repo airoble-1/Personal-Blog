@@ -7,15 +7,18 @@ export default function CommentCard({
   deleted,
   author,
   moderator,
+  setModalShow,
+  setCommentId,
 }) {
-  const dateposted = new Date(comment.createdAt);
-  let shortMonth = dateposted.toLocaleString("en-us", { month: "short" });
-  let year = dateposted.getFullYear();
-  let day = dateposted.getDate();
-
+  function dateTimeFormater(dateTime) {
+    const dateposted = new Date(dateTime);
+    let shortMonth = dateposted.toLocaleString("en-us", { month: "short" });
+    let year = dateposted.getFullYear();
+    let day = dateposted.getDate();
+    return `${shortMonth} ${day}, ${year}`;
+  }
   const { data: session } = useSession();
   const deleteComment = () => {};
-  const moderateComment = () => {};
   return (
     <div className="bg-light border-dark mt-2 border-2 border px-2 py-3">
       <div className="d-flex align-items-start gap-3">
@@ -28,7 +31,7 @@ export default function CommentCard({
           <h4 className="fw-bold fs-4">{`${author.firstName} ${author.lastName}`}</h4>
           <span className="small">
             Posted on{" "}
-            <span className="">{`${shortMonth} ${day}, ${year}`}</span>
+            <span className="">{dateTimeFormater(comment.createdAt)}</span>
           </span>
           <hr />
           {!moderated && !deleted && <p>{`${comment.body}`}</p>}
@@ -42,7 +45,9 @@ export default function CommentCard({
           {moderated && (
             <>
               <p className="fw-bold fs-6 fst-italic">
-                {`This comment was moderated by ${moderator.firstName} ${moderator.lastName} on ${comment.moderated}`}
+                {`This comment was moderated by ${moderator.firstName} ${
+                  moderator.lastName
+                } on ${dateTimeFormater(comment.moderated)}`}
               </p>
               <p className="fw-bold fs-6 fst-italic">
                 Reason:{" "}
@@ -60,13 +65,18 @@ export default function CommentCard({
                 <hr />
                 <button
                   className="btn btn-dark btn-sm text-uppercase fw-bold rounded px-4"
-                  onClick={deleteComment}
+                  onClick={() => {
+                    deleteComment;
+                  }}
                 >
-                  Delete
+                  delete
                 </button>
                 <button
                   className="btn btn-dark btn-sm text-uppercase fw-bold rounded px-4"
-                  onClick={moderateComment}
+                  onClick={() => {
+                    setCommentId(comment.id);
+                    setModalShow(true);
+                  }}
                 >
                   moderate
                 </button>
