@@ -7,8 +7,26 @@ export default nc()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
     const { postId } = req.query;
     const comments = await prisma.comment.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
       where: {
         postId: +postId,
+      },
+      include: {
+        author: {
+          select: {
+            firstName: true,
+            lastName: true,
+            profileImage: true,
+          },
+        },
+        moderator: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
       },
     });
     res.json({ comments });
@@ -36,6 +54,6 @@ export default nc()
     }
     res.status(201).json({
       success: true,
-      message: "blog created!",
+      message: "comment created!",
     });
   });

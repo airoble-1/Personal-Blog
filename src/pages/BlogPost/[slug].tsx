@@ -1,10 +1,23 @@
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import CommentCard from "../../components/commentCard";
 import { useForm } from "react-hook-form";
+import ModerateCommentModal from "../../components/moderateCommentModal";
+import useSWR, { useSWRConfig } from "swr";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function PostDetailsPage({ post }) {
+  const [modalShow, setModalShow] = useState(false);
+  const [commentId, setCommentId] = useState();
+  const { mutate } = useSWRConfig();
+  const { data, error, isLoading } = useSWR(
+    `/api/comment/byPostId/${post.id}`,
+    fetcher
+  );
+
   const onSubmit = async (data) => {
     try {
       const response = await fetch(
@@ -24,6 +37,7 @@ export default function PostDetailsPage({ post }) {
       const apiData = await response.json();
       console.log(apiData);
       reset();
+      mutate(`/api/comment/byPostId/${post.id}`);
     } catch (error) {
       console.log(error);
     }
@@ -45,9 +59,7 @@ export default function PostDetailsPage({ post }) {
           </div>
         </div>
       </article>
-
       <hr />
-
       <article>
         <div className="row">
           <div className="col font-weight-bold h3 fs-2 text-center">Tags</div>
@@ -60,9 +72,7 @@ export default function PostDetailsPage({ post }) {
           </div>
         </div>
       </article>
-
       <hr />
-
       {!session && (
         <Link href="/login">
           <a
@@ -107,23 +117,35 @@ export default function PostDetailsPage({ post }) {
           </button>
         </form>
       )}
-
       <hr className="border-dark border-2 border" />
-
       <span className="btn btn-sm btn-primary btn-block w-100 fs-6 fw-bold rounded">
-        {`${post.comments.length}`} COMMENT(S)
+        {`${data?.comments.length}`} COMMENT(S)
       </span>
+      {error && <div>failed to load</div>}
 
-      {post.comments.map((comment) => (
-        <CommentCard
-          key={uuidv4()}
-          comment={comment}
-          moderated={comment.moderated}
-          deleted={comment.deleted}
-          author={comment.author}
-          moderator={comment.moderator}
-        />
-      ))}
+      {isLoading && <div>loading...</div>}
+
+      {!isLoading &&
+        !error &&
+        data?.comments?.map((comment) => (
+          <CommentCard
+            key={uuidv4()}
+            comment={comment}
+            moderated={comment.moderated}
+            deleted={comment.deleted}
+            author={comment.author}
+            moderator={comment.moderator}
+            setModalShow={setModalShow}
+            setCommentId={setCommentId}
+          />
+        ))}
+      <ModerateCommentModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        commentId={commentId}
+        mutate={mutate}
+        postId={`${post.id}`}
+      />
     </div>
   );
 }
