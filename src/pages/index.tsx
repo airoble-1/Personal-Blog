@@ -2,6 +2,7 @@ import BlogCardContainer from "../components/blogCardContainer";
 import BlogCard from "../components/blogCard";
 import { v4 as uuidv4 } from "uuid";
 import { prisma } from "../../src/server/db/client";
+
 function Home({ data }) {
   return (
     <BlogCardContainer>

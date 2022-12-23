@@ -1,6 +1,6 @@
 import CreatePostForm from "../../../components/createPostForm";
-
 import { useRouter } from "next/router";
+import { prisma } from "../../../server/db/client";
 
 export default function CreatePostPage({ data }) {
   const router = useRouter();

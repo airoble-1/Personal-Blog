@@ -1,6 +1,7 @@
 import BlogCardContainer from "../../../components/blogCardContainer";
 import PostCard from "../../../components/postCard";
 import { v4 as uuidv4 } from "uuid";
+import { prisma } from "../../../server/db/client";
 
 export default function BlogPostIndexPage({ data }) {
   return (

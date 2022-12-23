@@ -1,4 +1,5 @@
 import CreatePostForm from "../../components/createPostForm";
+import { prisma } from "../../server/db/client";
 
 export default function CreatePostPage({ data }) {
   return <CreatePostForm blogId={false} blogs={data} />;
