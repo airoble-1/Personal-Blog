@@ -19,6 +19,7 @@ export default function LoginForm() {
     register,
     formState: { errors },
   } = useForm<Formvalues>();
+
   async function submitHandler(data) {
     const { email, password } = data;
     // e.preventDefault();
@@ -37,7 +38,15 @@ export default function LoginForm() {
       <h2 className="fw-bold">Login</h2>
       <div className="row gx-4 gx-lg-5 justify-content-center">
         <div className="col-md-6 col-lg-6 col-xl-6">
-          <form onSubmit={handleSubmit((data) => submitHandler(data))}>
+          <form
+            onSubmit={handleSubmit((data) => {
+              try {
+                submitHandler(data);
+              } catch (error) {
+                console.log(error);
+              }
+            })}
+          >
             <h3 className="fw-bolder">Use a local account to login.</h3>
             <hr />
             <div className="form-group mb-2">
