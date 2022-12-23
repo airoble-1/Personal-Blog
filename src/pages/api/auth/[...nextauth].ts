@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-
+import { prisma } from "../../../server/db/client";
 // Prisma adapter for NextAuth, optional and can be removed
 // import { PrismaAdapter } from "@next-auth/prisma-adapter";
 // import { prisma } from "../../../server/db/client";
@@ -36,6 +36,7 @@ export default NextAuth({
   },
   providers: [
     CredentialsProvider({
+      id: "credentials",
       type: "credentials",
       credentials: {},
       async authorize(credentials) {
@@ -44,28 +45,40 @@ export default NextAuth({
           email: string;
           password: string;
         };
-        const user = await prisma.user.findUnique({
-          where: {
-            email,
-          },
-        });
+        try {
+          const user = await prisma.user.findUnique({
+            where: {
+              email,
+            },
+          });
 
-        if (!user) throw new Error("User does not exist");
+          if (!user) return null;
 
-        const isPasswordValid = bcrypt.compareSync(password, user.passwordHash);
-        if (!isPasswordValid) throw new Error("Email or Password is incorrect");
+          const isPasswordValid = bcrypt.compareSync(
+            password,
+            user.passwordHash
+          );
+          if (!isPasswordValid) return null;
 
-        return {
-          id: user.id,
-          email: user.email,
-          role: user.role,
-          profileImage: user.profileImage,
-          firstName: user.firstName,
-          lastName: user.lastName,
-        };
+          //throw new Error("Email or Password is incorrect");
+
+          return {
+            id: user.id,
+            email: user.email,
+            role: user.role,
+            profileImage: user.profileImage,
+            firstName: user.firstName,
+            lastName: user.lastName,
+          };
+        } catch (error) {
+          console.log("Authorize error:", error);
+        }
       },
     }),
   ],
+  pages: {
+    signIn: "/login",
+  },
   callbacks: {
     async jwt({ token, user }) {
       return { ...token, ...user };

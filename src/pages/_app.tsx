@@ -4,11 +4,11 @@ import Layout from "../components/layout";
 import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     //<QueryClientProvider client={queryClient}>
 
-    <SessionProvider session={pageProps.session}>
+    <SessionProvider session={session}>
       <Layout>
         <Component {...pageProps} />;
       </Layout>
@@ -16,6 +16,6 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
     // </QueryClientProvider>
   );
-};
+}
 
 export default MyApp;
