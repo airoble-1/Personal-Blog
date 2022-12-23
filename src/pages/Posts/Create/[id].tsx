@@ -10,13 +10,16 @@ export default function CreatePostPage({ data }) {
 
 export async function getServerSideProps({ params }) {
   const { id } = params;
-
-  const response = await fetch(`http://localhost:3000/api/blog/${id}`);
-  if (!response.ok) {
-    throw new Error("Error: Could not retrieve blogs");
+  try {
+    const blogId = +id;
+    const blog = await prisma.blog.findFirst({
+      where: {
+        id: blogId,
+      },
+    });
+    const data = JSON.parse(JSON.stringify(blog));
+    return { props: { data } };
+  } catch (error) {
+    console.log(error);
   }
-  const blogData = await response.json();
-  const data = blogData.blogs;
-
-  return { props: { data } };
 }

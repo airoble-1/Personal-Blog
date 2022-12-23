@@ -16,14 +16,13 @@ export async function getServerSideProps({ params }) {
   const { id } = params;
   let data = [];
   try {
-    const response = await fetch(
-      `http://localhost:3000/api/post/byBlogId/${id}`
-    );
-    if (!response.ok) {
-      throw new Error("Error: Could not retrieve posts");
-    }
-    const postData = await response.json();
-    data = postData.posts;
+    const posts = await prisma.post.findMany({
+      where: {
+        blogId: +id,
+      },
+    });
+
+    data = JSON.parse(JSON.stringify(posts));
   } catch (error) {
     console.log(`Error: ${error.message}`);
   } finally {
