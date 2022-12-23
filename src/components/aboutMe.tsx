@@ -1,5 +1,6 @@
 import styles from "./aboutMe.module.css";
 import { FaChevronRight } from "react-icons/fa";
+import Image from "next/image";
 
 export default function AboutPage() {
   return (
@@ -8,7 +9,7 @@ export default function AboutPage() {
         <div className={`${styles["section-title"]}`}>
           <h2>About</h2>
           <p>
-            Hello! My Name is Ahmed. I'm a toronto-based software developer
+            Hello! My Name is Ahmed. I&apos;m a toronto-based software developer
             specializing in the React, Next.JS stack. My long term goal is to
             become a full stack developer able to transform great ideas into
             beautiful and functional products.
@@ -17,18 +18,22 @@ export default function AboutPage() {
 
         <div className="row">
           <div className={`${styles["img-container"]} col-lg-4`}>
-            <img
+            <Image
               src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1667410187/My%20Uploads/ixucpehbbkggk7bi1xiq.jpg"
               className="img-fluid"
               alt="profile image"
+              width={60}
+              height={60}
+              placeholder="blur"
+              blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
             />
           </div>
           <div className={`${styles.content} col-lg-8 pt-lg-0 pt-4`}>
             <h3>Full Stack React Developer</h3>
             <p className="fst-italic">
-              Currently, I am working an intership at CIBC. In my spare time I'm
-              working on improving my craft as a Full Stack Developer within the
-              React/Next.JS ecosystem building out full featured
+              Currently, I am working an intership at CIBC. In my spare time
+              I&apos;m working on improving my craft as a Full Stack Developer
+              within the React/Next.JS ecosystem building out full featured
               interprise-level applications.
             </p>
             <div className="row">

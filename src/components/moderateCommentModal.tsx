@@ -3,7 +3,6 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-import { mutate } from "swr";
 
 const reasonsForModeration = [
   { value: "Political", name: "Political" },
@@ -19,7 +18,6 @@ export default function ModerateCommentModal(props) {
   const {
     register,
     handleSubmit,
-    unregister,
     reset,
     formState: { errors },
   } = useForm({

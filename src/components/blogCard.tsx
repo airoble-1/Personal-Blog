@@ -1,18 +1,22 @@
 import { useSession } from "next-auth/react";
 import styles from "./blogCard.module.css";
 import Link from "next/dist/client/link";
+import Image from "next/image";
 
 export default function BlogCard({ blog }) {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   return (
     <div className="col-lg-4 col-md-6 col-sm-12">
       <div className="card">
         <div className={`${styles.imgContainer}`}>
-          <img
+          <Image
             className={`${styles.cardImg} card-img-top`}
             src={blog.featureimage}
             alt={blog.name}
+            layout="fill"
+            placeholder="blur"
+            blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
           />
         </div>
 

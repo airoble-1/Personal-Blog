@@ -1,7 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
 import RegisterFrom from "../components/registerForm";
-import { env } from "../env/server.mjs";
-import { validateToken } from "../../lib/auth";
 import { prisma } from "../../src/server/db/client";
 import { getToken } from "next-auth/jwt";
 

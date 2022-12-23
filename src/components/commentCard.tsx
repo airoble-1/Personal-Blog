@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { date } from "zod";
+import Image from "next/image";
 
 export default function CommentCard({
   comment,
@@ -12,20 +12,24 @@ export default function CommentCard({
 }) {
   function dateTimeFormater(dateTime) {
     const dateposted = new Date(dateTime);
-    let shortMonth = dateposted.toLocaleString("en-us", { month: "short" });
-    let year = dateposted.getFullYear();
-    let day = dateposted.getDate();
+    const shortMonth = dateposted.toLocaleString("en-us", { month: "short" });
+    const year = dateposted.getFullYear();
+    const day = dateposted.getDate();
     return `${shortMonth} ${day}, ${year}`;
   }
   const { data: session } = useSession();
-  const deleteComment = () => {};
+
   return (
     <div className="bg-light border-dark mt-2 border-2 border px-2 py-3">
       <div className="d-flex align-items-start gap-3">
-        <img
+        <Image
           className="rounded-circle"
-          style={{ width: "60px" }}
           src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+          alt="Picture of the blogger"
+          width={60}
+          height={60}
+          placeholder="blur"
+          blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
         />
         <div className="media-body flex-grow-1">
           <h4 className="fw-bold fs-4">{`${author.firstName} ${author.lastName}`}</h4>
@@ -63,12 +67,7 @@ export default function CommentCard({
             {session && session?.user.role === "Moderator" && (
               <>
                 <hr />
-                <button
-                  className="btn btn-dark btn-sm text-uppercase fw-bold rounded px-4"
-                  onClick={() => {
-                    deleteComment;
-                  }}
-                >
+                <button className="btn btn-dark btn-sm text-uppercase fw-bold rounded px-4">
                   delete
                 </button>
                 <button

@@ -1,18 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import cookie from "cookie";
 import { prisma } from "../../server/db/client";
-import { env } from "../../env/server.mjs";
 
 const registerHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const salt = bcrypt.genSaltSync();
   const { firstName, lastName, email, password, profileImage } = req.body;
-
-  let user;
-
   try {
-    user = await prisma.user.create({
+    await prisma.user.create({
       data: {
         firstName,
         lastName,

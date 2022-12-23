@@ -1,12 +1,9 @@
-import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import Select from "react-select";
-import slugify from "slugify";
-import blog from "../pages/api/blog";
 
 type Formvalues = {
   name: number;
@@ -23,8 +20,6 @@ const statuses = [
   { value: "PreviewReady", name: "Preview Ready" },
   { value: "ProductionReady", name: "Production Ready" },
 ];
-
-function deleteTag() {}
 
 export default function CreatePostForm({ blogs, blogId }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,25 +43,24 @@ export default function CreatePostForm({ blogs, blogId }) {
     setTagInput("");
   }
 
-  function removeTag() {
-    // setTagInput([]);
-    // let selectedOptions = selectRef.current.selectedOptions;
-    // const optionsArr = Array.from(selectedOptions);
-    // let optionsValueArr = optionsArr.map((option) => option.value);
-    // console.log("optionsValueArr", optionsValueArr);
-    // setTagsArray((prev) => {
-    //   let filteredItems = prev.filter((item) => {
-    //     optionsValueArr.includes(item);
-    //   });
-    //   return filteredItems;
-    // });
-  }
+  //function removeTag() {
+  // setTagInput([]);
+  // let selectedOptions = selectRef.current.selectedOptions;
+  // const optionsArr = Array.from(selectedOptions);
+  // let optionsValueArr = optionsArr.map((option) => option.value);
+  // console.log("optionsValueArr", optionsValueArr);
+  // setTagsArray((prev) => {
+  //   let filteredItems = prev.filter((item) => {
+  //     optionsValueArr.includes(item);
+  //   });
+  //   return filteredItems;
+  // });
+  // }
 
   const {
     control,
     register,
     handleSubmit,
-    unregister,
     formState: { errors },
   } = useForm<Formvalues>({
     shouldUnregister: true,
