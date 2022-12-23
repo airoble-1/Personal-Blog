@@ -6,6 +6,7 @@ import CommentCard from "../../components/commentCard";
 import { useForm } from "react-hook-form";
 import ModerateCommentModal from "../../components/moderateCommentModal";
 import useSWR, { useSWRConfig } from "swr";
+import { prisma } from "../../server/db/client";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
