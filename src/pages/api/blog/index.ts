@@ -13,7 +13,7 @@ export default nc()
     if (token?.role === "Administrator") {
       const { name, description, featureimage } = req.body;
 
-      const blog = await prisma.blog.create({
+      await prisma.blog.create({
         data: {
           name,
           description,

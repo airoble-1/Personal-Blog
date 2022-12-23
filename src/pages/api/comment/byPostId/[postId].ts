@@ -37,7 +37,7 @@ export default nc()
     if (token) {
       const { body } = req.body;
 
-      const comment = await prisma.comment.create({
+      await prisma.comment.create({
         data: {
           body,
           author: { connect: { id: token.id as string } },

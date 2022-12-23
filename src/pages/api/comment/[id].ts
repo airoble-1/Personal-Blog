@@ -19,7 +19,7 @@ export default nc()
     const commentId = +id;
     const { reason, body } = req.body;
     try {
-      const updatedComment = await prisma.comment.update({
+      await prisma.comment.update({
         where: {
           id: commentId,
         },

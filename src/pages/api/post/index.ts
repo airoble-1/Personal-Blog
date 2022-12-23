@@ -2,9 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
 import { prisma } from "../../../server/db/client";
 import { getToken } from "next-auth/jwt";
-import blog from "../blog";
 import slugify from "slugify";
-import { text } from "stream/consumers";
+
 export default nc()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
     const posts = await prisma.post.findMany();
@@ -24,7 +23,7 @@ export default nc()
           readyStatus,
         } = req.body;
 
-        const post = await prisma.post.create({
+        await prisma.post.create({
           data: {
             blog: { connect: { id: +blogId } },
             title,

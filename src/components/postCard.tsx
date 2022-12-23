@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import styles from "./postCard.module.css";
 import Link from "next/dist/client/link";
+import Image from "next/image";
 
 export default function BlogCard({ post }) {
   const { data: session } = useSession();
@@ -51,10 +52,13 @@ export default function BlogCard({ post }) {
           )}
         </div>
         <div className={`${styles.imgContainer}`}>
-          <img
+          <Image
             className={`${styles.cardImg} card-img-bottom`}
             src={post.featureImage}
             alt={post.title}
+            layout="fill"
+            placeholder="blur"
+            blurDataURL="https://dummyimage.com/847x320/d9d9d9/545454.jpg"
           />
         </div>
       </div>

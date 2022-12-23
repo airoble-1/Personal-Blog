@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { Session } from "inspector";
+
 // Prisma adapter for NextAuth, optional and can be removed
 // import { PrismaAdapter } from "@next-auth/prisma-adapter";
 // import { prisma } from "../../../server/db/client";
