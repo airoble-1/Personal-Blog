@@ -5,12 +5,11 @@ export default function CreatePostPage({ data }) {
 }
 
 export async function getServerSideProps() {
-  const response = await fetch(`http://localhost:3000/api/blog`);
-  if (!response.ok) {
-    throw new Error("Error: Could not retrieve blogs");
+  try {
+    let blogs = await prisma.blog.findMany();
+    const data = JSON.parse(JSON.stringify(blogs));
+    return { props: { data } };
+  } catch (error) {
+    console.log(error);
   }
-  const blogData = await response.json();
-  const data = blogData.blogs;
-
-  return { props: { data } };
 }

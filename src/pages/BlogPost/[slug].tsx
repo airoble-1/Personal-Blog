@@ -154,17 +154,15 @@ export async function getServerSideProps({ params }) {
   const { slug } = params;
   let post = {};
   try {
-    const response = await fetch(
-      `http://localhost:3000/api/post/bySlug/${slug}`
-    );
-    if (!response.ok) {
-      throw new Error("Error: Could not retrieve post");
-    }
-    const postData = await response.json();
-    post = postData.post;
+    post = await prisma.post.findFirst({
+      where: {
+        slug: slug as string,
+      },
+    });
+    post = JSON.parse(JSON.stringify(post));
+    return { props: { post } };
   } catch (error) {
     console.log(`Error: ${error.message}`);
   } finally {
-    return { props: { post } };
   }
 }
