@@ -138,6 +138,8 @@ export default function PostDetailsPage({ post }) {
             moderator={comment.moderator}
             setModalShow={setModalShow}
             setCommentId={setCommentId}
+            mutate={mutate}
+            postId={`${post.id}`}
           />
         ))}
       <ModerateCommentModal

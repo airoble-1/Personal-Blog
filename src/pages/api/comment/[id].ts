@@ -30,11 +30,11 @@ export default nc()
           moderationType: reason,
         },
       });
-      res.json({ message: "updated comment" });
+      res.json({ message: "moderated comment" });
     } catch (error) {
       console.log(error);
     }
   })
   .delete(async (req: NextApiRequest, res: NextApiResponse) => {
-    res.json({ message: "delete post" });
+    res.json({ message: "deleted comment" });
   });

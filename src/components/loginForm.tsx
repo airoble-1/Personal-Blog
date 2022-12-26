@@ -97,7 +97,7 @@ export default function LoginForm() {
               </Link>
             </p>
             <p className="">
-              <Link href="/">
+              <Link href="/register">
                 <a className="text-secondary fw-bold">Register as a new user</a>
               </Link>
             </p>
@@ -115,12 +115,6 @@ export default function LoginForm() {
             >
               Login
             </button>
-            <p className="fw-bold">
-              {`Already have an account? `}
-              <Link href="/login">
-                <a className="text-decoration-none">Login</a>
-              </Link>
-            </p>
           </form>
         </div>
         <div className="col-md-6 col-md-offset-2">
