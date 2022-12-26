@@ -9,6 +9,8 @@ export default function CommentCard({
   moderator,
   setModalShow,
   setCommentId,
+  mutate,
+  postId,
 }) {
   function dateTimeFormater(dateTime) {
     const dateposted = new Date(dateTime);
@@ -17,6 +19,29 @@ export default function CommentCard({
     const day = dateposted.getDate();
     return `${shortMonth} ${day}, ${year}`;
   }
+  const deleteComment = async function () {
+    try {
+      const response = await fetch(
+        `${window.location.origin}/api/comment/delete/${comment.id}`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            deleted: new Date(),
+          }),
+        }
+      );
+      const apiData = await response.json();
+      console.log(apiData);
+      mutate(`/api/comment/byPostId/${postId}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const { data: session } = useSession();
 
   return (
@@ -42,11 +67,13 @@ export default function CommentCard({
 
           {deleted && (
             <p className="fw-bolder fs-5 text-danger fst-italic">
-              This comment was deleted by Ahmed Roble on Dec 16, 2022
+              {`This comment was deleted by ${moderator?.firstName} ${
+                moderator?.lastName
+              } on ${dateTimeFormater(comment.deleted)}`}
             </p>
           )}
 
-          {moderated && (
+          {!deleted && moderated && (
             <>
               <p className="fw-bold fs-6 fst-italic">
                 {`This comment was moderated by ${moderator.firstName} ${
@@ -64,10 +91,13 @@ export default function CommentCard({
           )}
 
           <div className="d-flex flex-column flex-sm-row gap-3">
-            {session && session?.user.role === "Moderator" && (
+            {session && session?.user.role === "Moderator" && !deleted && (
               <>
                 <hr />
-                <button className="btn btn-dark btn-sm text-uppercase fw-bold rounded px-4">
+                <button
+                  className="btn btn-dark btn-sm text-uppercase fw-bold rounded px-4"
+                  onClick={deleteComment}
+                >
                   delete
                 </button>
                 <button

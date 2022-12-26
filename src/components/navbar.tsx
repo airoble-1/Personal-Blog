@@ -107,21 +107,21 @@ export default function MainMenu() {
             {session && session.user.role === "Moderator" && (
               <ul className="d-flex justify-content-between list-unstyled fs-6">
                 <li className="nav-item px-3">
-                  <Link href="/">
+                  <Link href="/comments">
                     <a className="text-decoration-none fw-bolder text-uppercase text-white">
                       user comments
                     </a>
                   </Link>
                 </li>
                 <li className="nav-item px-3">
-                  <Link href="/about">
+                  <Link href="/comments/moderatedIndex">
                     <a className="text-decoration-none fw-bolder text-uppercase text-white">
                       moderated comments
                     </a>
                   </Link>
                 </li>
                 <li className="nav-item px-3">
-                  <Link href="/contact">
+                  <Link href="/comments/deletedIndex">
                     <a className="text-decoration-none fw-bolder text-uppercase text-white">
                       deleted comments
                     </a>
