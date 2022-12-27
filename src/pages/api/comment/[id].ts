@@ -36,5 +36,24 @@ export default nc()
     }
   })
   .delete(async (req: NextApiRequest, res: NextApiResponse) => {
-    res.json({ message: "deleted comment" });
+    const { id } = req.body;
+    try {
+      await prisma.comment.delete({
+        where: {
+          id: +id,
+        },
+      });
+      res.json({
+        success: true,
+        message: "comment deleted",
+      });
+    } catch (error) {
+      console.log(error);
+      res.json({
+        success: false,
+        message: error,
+      });
+    } finally {
+      res.end();
+    }
   });
