@@ -1,6 +1,8 @@
 import Table from "react-bootstrap/Table";
 import Link from "next/link";
 import { v4 as uuidv4 } from "uuid";
+import { prisma } from "../../server/db/client";
+
 const reasonsForModeration = {
   Political: "Political",
   Language: "Language",
@@ -47,7 +49,7 @@ export default function DeletedIndex({ comments }) {
                   <a>Edit </a>
                 </Link>
                 |{" "}
-                <Link href="#">
+                <Link href={`/comment/delete/${comment.id}`}>
                   <a> Delete</a>
                 </Link>
               </td>
@@ -72,6 +74,7 @@ export async function getServerSideProps() {
         moderated: "desc",
       },
       select: {
+        id: true,
         body: true,
         moderated: true,
         moderatedBody: true,

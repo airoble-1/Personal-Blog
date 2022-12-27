@@ -1,15 +1,7 @@
 import Table from "react-bootstrap/Table";
 import Link from "next/link";
 import { v4 as uuidv4 } from "uuid";
-const reasonsForModeration = {
-  Political: "Political",
-  Language: "Language",
-  Drugs: "Drugs",
-  Threatening: "Threatening",
-  HateSpeech: "Hate Speech",
-  Shaming: "Shaming",
-  Fraud: "Fraud",
-};
+import { prisma } from "../../server/db/client";
 
 function dateTimeFormater(dateTime) {
   const dateposted = new Date(dateTime);
@@ -43,7 +35,7 @@ export default function DeletedIndex({ comments }) {
                   <a>Edit </a>
                 </Link>
                 |{" "}
-                <Link href="#">
+                <Link href={`/comment/delete/${comment.id}`}>
                   <a> Delete</a>
                 </Link>
               </td>
@@ -65,6 +57,7 @@ export async function getServerSideProps() {
         createdAt: "desc",
       },
       select: {
+        id: true,
         body: true,
         createdAt: true,
         author: {
