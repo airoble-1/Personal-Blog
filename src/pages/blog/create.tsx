@@ -168,8 +168,8 @@ const Home: NextPage = () => {
             </div>
           </form>
           <div>
-            <Link href="/">
-              <a className="text-decoration-none">Back to List</a>
+            <Link href="/" className="text-decoration-none">
+              Back to List
             </Link>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import styles from "./aboutMe.module.css";
 import { FaChevronRight } from "react-icons/fa";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 export default function AboutPage() {
   return (
@@ -20,10 +20,10 @@ export default function AboutPage() {
           <div className={`${styles["img-container"]} col-lg-4`}>
             <Image
               src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1667410187/My%20Uploads/ixucpehbbkggk7bi1xiq.jpg"
-              className="img-fluid"
+              className="img-fluid rounded"
               alt="profile image"
-              width={60}
-              height={60}
+              width={320}
+              height={320}
               placeholder="blur"
               blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
             />
@@ -34,7 +34,7 @@ export default function AboutPage() {
               Currently, I am working an intership at CIBC. In my spare time
               I&apos;m working on improving my craft as a Full Stack Developer
               within the React/Next.JS ecosystem building out full featured
-              interprise-level applications.
+              enterprise-level applications.
             </p>
             <div className="row">
               <div className="col-lg-6">
@@ -43,7 +43,7 @@ export default function AboutPage() {
                     <i>
                       <FaChevronRight />
                     </i>{" "}
-                    <strong>Website:</strong> <span>www.ahmedroble.com/</span>
+                    <strong>Website:</strong> <span>www.ahmedroble.com</span>
                   </li>
                   <li>
                     <i>
@@ -80,7 +80,7 @@ export default function AboutPage() {
             <p>
               React, Javascript, Next.JS are my forte when building out new
               ideas. But I am always open to learning and discovering new
-              things. During my free time on the weekednd, I work with others in
+              things. During my free time on the weekend, I work with others in
               an online community sharing ideas and building projects we are
               passionate about.
             </p>

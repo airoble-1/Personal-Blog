@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import styles from "./postCard.module.css";
 import Link from "next/dist/client/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 export default function BlogCard({ post }) {
   const { data: session } = useSession();
@@ -21,7 +21,7 @@ export default function BlogCard({ post }) {
               : post.abstract}
           </p>
           {!session && (
-            <Link href={`/BlogPost/${post.slug}`}>
+            <Link href={`/BlogPost/${post.slug}`} legacyBehavior>
               <a className="btn w-75 btn-secondary text-uppercase fw-bold d-inline-block mb-2 text-white">
                 read more
               </a>
@@ -30,7 +30,7 @@ export default function BlogCard({ post }) {
           {session &&
             (session.user.role === "User" ||
               session.user.role === "Moderator") && (
-              <Link href={`/BlogPost/${post.slug}`}>
+              <Link href={`/BlogPost/${post.slug}`} legacyBehavior>
                 <a className="btn w-75 btn-secondary text-uppercase fw-bold d-inline-block mb-2 text-white">
                   read more
                 </a>
@@ -38,12 +38,12 @@ export default function BlogCard({ post }) {
             )}
           {session && session.user.role === "Administrator" && (
             <>
-              <Link href={`/BlogPost/${post.slug}`}>
+              <Link href={`/BlogPost/${post.slug}`} legacyBehavior>
                 <a className="btn w-75 btn-secondary text-uppercase fw-bold d-inline-block mb-2 text-white">
                   read more
                 </a>
               </Link>
-              <Link href={`/Posts/Edit/${post.id}`}>
+              <Link href={`/Posts/Edit/${post.id}`} legacyBehavior>
                 <a className="btn w-75 btn-danger text-uppercase fw-bold d-inline-block mb-2 text-white">
                   edit post
                 </a>

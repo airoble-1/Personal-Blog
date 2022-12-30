@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useSession, signOut } from "next-auth/react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -18,20 +18,18 @@ export default function MainMenu() {
       id="mainNav"
     >
       <Container className="px-lg-4 container px-3">
-        <Link href="/">
-          <a>
-            <Navbar.Brand>
-              <Image
-                className="rounded-circle"
-                src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
-                alt="Picture of the blogger"
-                width={70}
-                height={70}
-                placeholder="blur"
-                blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
-              />
-            </Navbar.Brand>
-          </a>
+        <Link className="cursor-pointer" href="/" legacyBehavior>
+          <Navbar.Brand>
+            <Image
+              className="rounded-circle"
+              src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+              alt="Picture of the blogger"
+              width={70}
+              height={70}
+              placeholder="blur"
+              blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+            />
+          </Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse className="" id="responsive-navbar-nav">
@@ -39,24 +37,27 @@ export default function MainMenu() {
             {!session && (
               <ul className="d-flex justify-content-between list-unstyled fs-6">
                 <li className="nav-item px-3">
-                  <Link href="/">
-                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
-                      Home
-                    </a>
+                  <Link
+                    href="/"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    Home
                   </Link>
                 </li>
                 <li className="px-3">
-                  <Link href="/about">
-                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
-                      About Me
-                    </a>
+                  <Link
+                    href="/about"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    About Me
                   </Link>
                 </li>
                 <li className="px-3">
-                  <Link href="/contact">
-                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
-                      Contact Me
-                    </a>
+                  <Link
+                    href="/contact"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    Contact Me
                   </Link>
                 </li>
               </ul>
@@ -64,24 +65,27 @@ export default function MainMenu() {
             {session && session.user.role === "User" && (
               <ul className="d-flex justify-content-between list-unstyled fs-6">
                 <li className="px-3">
-                  <Link href="/">
-                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
-                      Home
-                    </a>
+                  <Link
+                    href="/"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    Home
                   </Link>
                 </li>
                 <li className="nav-item px-3">
-                  <Link href="/about">
-                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
-                      About Me
-                    </a>
+                  <Link
+                    href="/about"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    About Me
                   </Link>
                 </li>
                 <li className="nav-item px-3">
-                  <Link href="/contact">
-                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
-                      Contact Me
-                    </a>
+                  <Link
+                    href="/contact"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    Contact Me
                   </Link>
                 </li>
               </ul>
@@ -89,17 +93,19 @@ export default function MainMenu() {
             {session && session.user.role === "Administrator" && (
               <ul className="d-flex justify-content-between list-unstyled fs-6">
                 <li className="nav-item px-3">
-                  <Link href="/blog/create">
-                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
-                      create blog
-                    </a>
+                  <Link
+                    href="/blog/create"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    create blog
                   </Link>
                 </li>
                 <li className="nav-item px-3">
-                  <Link href="/Posts/Create">
-                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
-                      create post
-                    </a>
+                  <Link
+                    href="/Posts/Create"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    create post
                   </Link>
                 </li>
               </ul>
@@ -107,69 +113,80 @@ export default function MainMenu() {
             {session && session.user.role === "Moderator" && (
               <ul className="d-flex justify-content-between list-unstyled fs-6">
                 <li className="nav-item px-3">
-                  <Link href="/comments">
-                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
-                      user comments
-                    </a>
+                  <Link
+                    href="/comments"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    user comments
                   </Link>
                 </li>
                 <li className="nav-item px-3">
-                  <Link href="/comments/moderatedIndex">
-                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
-                      moderated comments
-                    </a>
+                  <Link
+                    href="/comments/moderatedIndex"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    moderated comments
                   </Link>
                 </li>
                 <li className="nav-item px-3">
-                  <Link href="/comments/deletedIndex">
-                    <a className="text-decoration-none fw-bolder text-uppercase text-white">
-                      deleted comments
-                    </a>
+                  <Link
+                    href="/comments/deletedIndex"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
+                    deleted comments
                   </Link>
                 </li>
               </ul>
             )}
             <ul className="d-flex justify-content-between list-unstyled fs-6 mx-3">
-              <li className="nav-item px-3"></li>
-              <Link href="/swagger">
-                <a className="text-decoration-none fw-bolder text-uppercase text-white">
+              <li className="nav-item px-3">
+                <Link
+                  href="/swagger"
+                  className="text-decoration-none fw-bolder text-uppercase text-white"
+                >
                   Swagger API
-                </a>
-              </Link>
+                </Link>
+              </li>
             </ul>
             {!session && (
               <ul className="d-flex list-unstyled justify-content-between fs-6">
-                <li className="nav-item px-3"></li>
-                <Link href="/register">
-                  <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                <li className="nav-item px-3">
+                  <Link
+                    href="/register"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
                     register
-                  </a>
-                </Link>
-                <li className="nav-item px-3"></li>
-                <Link href="/login">
-                  <a className="text-decoration-none fw-bolder text-uppercase text-white">
+                  </Link>
+                </li>
+                <li className="nav-item px-3">
+                  <Link
+                    href="/login"
+                    className="text-decoration-none fw-bolder text-uppercase text-white"
+                  >
                     login
-                  </a>
-                </Link>
+                  </Link>
+                </li>
               </ul>
             )}
             {session && (
               <ul className="d-flex list-unstyled justify-content-between fs-6">
-                <li className="nav-item px-3"></li>
-                <Link href="/register">
-                  <a className="text-decoration-none fw-bolder text-white">
-                    {`Hi ${session.user.firstName}!`}
-                  </a>
-                </Link>
-                <li className="nav-item px-3"></li>
-                <Link href="/">
-                  <a
+                <li className="nav-item px-3">
+                  <Link
+                    href="/Account/Manage"
+                    className="text-decoration-none fw-bolder  text-white"
+                  >
+                    {`Hi ${session?.user?.firstName}!`}
+                  </Link>
+                </li>
+                <li className="nav-item px-3">
+                  <Link
+                    href="/"
                     onClick={logoutHandler}
                     className="text-decoration-none fw-bolder text-uppercase text-white"
                   >
                     logout
-                  </a>
-                </Link>
+                  </Link>
+                </li>
               </ul>
             )}
           </Nav>

@@ -92,20 +92,20 @@ export default function LoginForm() {
               </label>
             </div>
             <p className="">
-              <Link href="/">
-                <a className="text-secondary fw-bold">Forgot your password?</a>
+              <Link href="/" className="text-secondary fw-bold">
+                Forgot your password?
               </Link>
             </p>
             <p className="">
-              <Link href="/register">
-                <a className="text-secondary fw-bold">Register as a new user</a>
+              <Link href="/register" className="text-secondary fw-bold">
+                Register as a new user
               </Link>
             </p>
             <p className="">
-              <Link href="/login">
-                <a className="text-secondary fw-bold">
+              <Link href="/login" className="text-secondary fw-bold">
+                
                   Resend email confirmation
-                </a>
+                
               </Link>
             </p>
             <button
