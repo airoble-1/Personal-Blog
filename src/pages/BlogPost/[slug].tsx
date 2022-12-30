@@ -67,21 +67,22 @@ export default function PostDetailsPage({ post }) {
         </div>
         <div className="row">
           <div className="col d-flex justify-content-center">
-            <a className="btn btn-warning btn-sm btn-block fw-bold text-uppercase fs-5 mr-2 px-3">
-              #batman
-            </a>
+            {post.tags.map((tag) => (
+              <a className="btn btn-warning btn-sm btn-block fw-bold text-uppercase fs-5 mr-2 px-3">
+                {tag.text}
+              </a>
+            ))}
           </div>
         </div>
       </article>
       <hr />
       {!session && (
-        <Link href="/login">
-          <a
-            className="btn btn-primary btn-sm btn-block text-uppercase w-100 fs-6 fw-bold rounded"
-            asp-page="/Account/Login"
-          >
-            Login To Add Comments
-          </a>
+        <Link
+          href="/login"
+          className="btn btn-primary btn-sm btn-block text-uppercase w-100 fs-6 fw-bold rounded"
+          asp-page="/Account/Login"
+        >
+          Login To Add Comments
         </Link>
       )}
       {session && (
@@ -160,6 +161,9 @@ export async function getServerSideProps({ params }) {
     post = await prisma.post.findFirst({
       where: {
         slug: slug as string,
+      },
+      include: {
+        tags: true,
       },
     });
     post = JSON.parse(JSON.stringify(post));

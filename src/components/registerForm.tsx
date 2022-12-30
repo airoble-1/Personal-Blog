@@ -148,8 +148,8 @@ export default function LoginForm() {
             </button>
             <p className="fw-bold">
               {`Already have an account? `}
-              <Link href="/login">
-                <a className="text-primary fw-bold">Login</a>
+              <Link href="/login" className="text-primary fw-bold">
+                Login
               </Link>
             </p>
           </form>

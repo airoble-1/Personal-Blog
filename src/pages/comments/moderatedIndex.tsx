@@ -46,11 +46,11 @@ export default function DeletedIndex({ comments }) {
               </td>
               <td>
                 <Link href="#">
-                  <a>Edit </a>
+                  Edit 
                 </Link>
                 |{" "}
                 <Link href={`/comment/delete/${comment.id}`}>
-                  <a> Delete</a>
+                   Delete
                 </Link>
               </td>
             </tr>
