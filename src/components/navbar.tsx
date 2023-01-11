@@ -172,7 +172,7 @@ export default function MainMenu() {
               <ul className="d-flex list-unstyled justify-content-between fs-6">
                 <li className="nav-item px-3">
                   <Link
-                    href="/Account/Manage"
+                    href="/Manage/Account"
                     className="text-decoration-none fw-bolder  text-white"
                   >
                     {`Hi ${session?.user?.firstName}!`}

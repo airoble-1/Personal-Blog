@@ -235,10 +235,7 @@ export default function CreatePostForm({ blogs, blogId }) {
               )}
             </div>
             <div className="form-group  mb-3">
-              <label
-                asp-for="Image"
-                className="control-label fw-bold fs-5 mb-2"
-              >
+              <label className="control-label fw-bold fs-5 mb-2">
                 Select Image
               </label>
               <input
