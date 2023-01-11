@@ -1,14 +1,17 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import Layout from "../components/layout";
+import MainLayout from "../layouts/main";
 import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+  const Layout = Component.Layout || EmptyLayout;
   return (
     <SessionProvider session={session}>
-      <Layout>
-        <Component {...pageProps} />;
-      </Layout>
+      <MainLayout>
+        <Layout>
+          <Component {...pageProps} />;
+        </Layout>
+      </MainLayout>
     </SessionProvider>
   );
 }

@@ -4,7 +4,7 @@ import { FC, ReactNode } from "react";
 import Head from "next/head";
 import Header from "../components/header";
 
-export default function SiteLayout({ children }) {
+export default function MainLayout({ children }) {
   return (
     <>
       <Head>

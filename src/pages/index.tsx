@@ -2,7 +2,6 @@ import BlogCardContainer from "../components/blogCardContainer";
 import BlogCard from "../components/blogCard";
 import { v4 as uuidv4 } from "uuid";
 import { prisma } from "../../src/server/db/client";
-import SiteLayout from "../layouts/siteLayout";
 
 function Home({ data }) {
   return (
@@ -13,8 +12,6 @@ function Home({ data }) {
     </BlogCardContainer>
   );
 }
-
-Home.pageLayout = SiteLayout;
 
 export async function getServerSideProps() {
   try {
