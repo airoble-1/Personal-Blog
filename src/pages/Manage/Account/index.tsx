@@ -37,11 +37,7 @@ const ProfilePage = function () {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsUploading(true);
-    console.log({
-      firstName,
-      lastName,
-      image: profilePicture.current.files[0],
-    });
+
     let fileData;
     try {
       if (profilePicture.current.files[0]) {
@@ -57,7 +53,7 @@ const ProfilePage = function () {
         Object.entries(data).filter(([_, v]) => v != null && v != "")
       );
       if (Object.keys(dataObject).length === 0) return;
-      console.log("fileterd object", dataObject);
+
       const response = await fetch(
         `${window.location.origin}/api/user/${session.user.id}`,
         {
