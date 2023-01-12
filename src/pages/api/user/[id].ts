@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
 import { getToken } from "next-auth/jwt";
+import { prisma } from "../../../server/db/client";
 
 export default nc().patch(async (req: NextApiRequest, res: NextApiResponse) => {
   const token = await getToken({ req });
