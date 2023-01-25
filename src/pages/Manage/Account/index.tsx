@@ -10,7 +10,6 @@ import { useState, useRef } from "react";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const ProfilePage = function () {
-  const [mounted, setMounted] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isUploading, setIsUploading] = useState(false);
