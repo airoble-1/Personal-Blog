@@ -4,7 +4,7 @@ import ActiveLink from "../components/activeLink";
 
 export default function AccountLayout({ children }) {
   const router = useRouter();
-  console.log(router.pathname);
+
   return (
     <>
       <div className="container">
