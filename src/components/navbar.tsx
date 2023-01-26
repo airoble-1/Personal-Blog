@@ -13,29 +13,28 @@ export default function MainMenu() {
   }
 
   return (
-    <Nav
-      className="navbar navbar-expand-lg navbar-light bg-secondary fs-5"
-      id="mainNav"
-    >
-      <Container className="px-lg-4 container px-3">
-        <Link className="cursor-pointer" href="/" legacyBehavior>
-          <Navbar.Brand>
-            <Image
-              className="rounded-circle"
-              src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
-              alt="Picture of the blogger"
-              width={70}
-              height={70}
-              placeholder="blur"
-              blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
-            />
-          </Navbar.Brand>
-        </Link>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse className="" id="responsive-navbar-nav">
-          <Nav className="d-flex w-100 justify-content-between">
+    <Navbar className="bg-secondary fs-5" expand="lg">
+      <Container>
+        <Navbar.Brand href="#home">
+          <Link className="cursor-pointer" href="/" legacyBehavior>
+            <Navbar.Brand>
+              <Image
+                className="rounded-circle"
+                src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+                alt="Picture of the blogger"
+                width={70}
+                height={70}
+                placeholder="blur"
+                blurDataURL="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+              />
+            </Navbar.Brand>
+          </Link>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto w-100 d-flex flex-lg-row flex-column justify-content-between flex-row ">
             {!session && (
-              <ul className="d-flex justify-content-between list-unstyled fs-6">
+              <ul className="d-flex flex-lg-row flex-column justify-content-between list-unstyled fs-6">
                 <li className="nav-item px-3">
                   <Link
                     href="/"
@@ -63,7 +62,7 @@ export default function MainMenu() {
               </ul>
             )}
             {session && session.user.role === "User" && (
-              <ul className="d-flex justify-content-between list-unstyled fs-6">
+              <ul className="d-flex flex-lg-row flex-column justify-content-between list-unstyled fs-6">
                 <li className="px-3">
                   <Link
                     href="/"
@@ -91,7 +90,7 @@ export default function MainMenu() {
               </ul>
             )}
             {session && session.user.role === "Administrator" && (
-              <ul className="d-flex justify-content-between list-unstyled fs-6">
+              <ul className="d-flex flex-lg-row flex-column justify-content-between list-unstyled fs-6">
                 <li className="nav-item px-3">
                   <Link
                     href="/blog/create"
@@ -111,7 +110,7 @@ export default function MainMenu() {
               </ul>
             )}
             {session && session.user.role === "Moderator" && (
-              <ul className="d-flex justify-content-between list-unstyled fs-6">
+              <ul className="d-flex flex-lg-row flex-column justify-content-between list-unstyled fs-6">
                 <li className="nav-item px-3">
                   <Link
                     href="/comments"
@@ -138,7 +137,7 @@ export default function MainMenu() {
                 </li>
               </ul>
             )}
-            <ul className="d-flex justify-content-between list-unstyled fs-6 mx-3">
+            <ul className="d-flex flex-lg-row flex-column justify-content-between list-unstyled fs-6 mx-lg-3">
               <li className="nav-item px-3">
                 <Link
                   href="/swagger"
@@ -149,7 +148,7 @@ export default function MainMenu() {
               </li>
             </ul>
             {!session && (
-              <ul className="d-flex list-unstyled justify-content-between fs-6">
+              <ul className="d-flex flex-lg-row flex-column list-unstyled justify-content-between fs-6">
                 <li className="nav-item px-3">
                   <Link
                     href="/register"
@@ -169,7 +168,7 @@ export default function MainMenu() {
               </ul>
             )}
             {session && (
-              <ul className="d-flex list-unstyled justify-content-between fs-6">
+              <ul className="d-flex flex-lg-row flex-column list-unstyled justify-content-between fs-6">
                 <li className="nav-item px-3">
                   <Link
                     href="/Manage/Account"
@@ -192,6 +191,6 @@ export default function MainMenu() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-    </Nav>
+    </Navbar>
   );
 }
