@@ -5,7 +5,6 @@ import { prisma } from "../../../server/db/client";
 import { getToken } from "next-auth/jwt";
 import { useState, useRef } from "react";
 import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
 
 const PasswordPage = function () {
   const [showError, setShowError] = useState(false);
