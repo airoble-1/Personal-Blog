@@ -6,7 +6,6 @@ import bcrypt from "bcrypt";
 
 export default nc().patch(async (req: NextApiRequest, res: NextApiResponse) => {
   const token = await getToken({ req });
-  console.log(req.body);
   const { currentPassword, newPassword, confirmPassword } = req.body;
   try {
     const user = await prisma.user.findUnique({

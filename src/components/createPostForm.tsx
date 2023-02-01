@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import Select from "react-select";
+import RichTextEditor from "../components/richText";
 
 type Formvalues = {
   name: number;
@@ -27,7 +28,22 @@ export default function CreatePostForm({ blogs, blogId }) {
   const [tagsArray, setTagsArray] = useState([]);
   const router = useRouter();
   // const selectRef = useRef<>();
-
+  const handleImageUpload = useCallback(
+    (file: File): Promise<string> =>
+      new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "my-uploads");
+        fetch("https://api.cloudinary.com/v1_1/dlwqjptsg/image/upload", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((result) => resolve(result.secure_url))
+          .catch(() => reject(new Error("Upload failed")));
+      }),
+    []
+  );
   function addTag() {
     const index = tagsArray.findIndex(
       (option) => option.value === tagInput.toLowerCase()
@@ -86,7 +102,6 @@ export default function CreatePostForm({ blogs, blogId }) {
     setIsLoading(true);
     try {
       const fileData = await uploadFile(userData);
-
       if (!fileData) return;
       const postData = {
         blogId: blogId ? +blogId : +name,
@@ -103,10 +118,8 @@ export default function CreatePostForm({ blogs, blogId }) {
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify(postData),
       });
-
       setIsLoading(false);
       const data = await response.json();
       if (data.success) {
@@ -212,7 +225,22 @@ export default function CreatePostForm({ blogs, blogId }) {
             </div>
             <div className="form-group mb-3">
               <label className="control-label fw-bold fs-5 mb-2">Content</label>
-              <textarea
+              <Controller
+                name="content"
+                control={control}
+                rules={{ required: "Post content is required" }}
+                render={({ field }) => (
+                  <RichTextEditor
+                    id="rte"
+                    {...field}
+                    onImageUpload={handleImageUpload}
+                  />
+                )}
+              />
+              {errors.content && (
+                <div className="text-danger">{errors.content.message}</div>
+              )}
+              {/* <textarea
                 {...register("content", {
                   required: "Post content is required",
                   minLength: {
@@ -232,7 +260,7 @@ export default function CreatePostForm({ blogs, blogId }) {
               ></textarea>
               {errors.content && (
                 <div className="text-danger">{errors.content.message}</div>
-              )}
+              )} */}
             </div>
             <div className="form-group  mb-3">
               <label className="control-label fw-bold fs-5 mb-2">
@@ -302,7 +330,7 @@ export default function CreatePostForm({ blogs, blogId }) {
                   <Controller
                     name="tags"
                     control={control}
-                    rules={{ required: true }}
+                    rules={{ required: "Tag(s) for post is required" }}
                     render={({ field }) => (
                       <Select
                         {...field}
@@ -313,6 +341,9 @@ export default function CreatePostForm({ blogs, blogId }) {
                       />
                     )}
                   />
+                  {errors.tags && (
+                    <div className="text-danger">{errors.tags.message}</div>
+                  )}
                   {/* <select
                     className="btn-block form-select"
                     name="tags"

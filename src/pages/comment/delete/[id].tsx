@@ -41,7 +41,7 @@ export default function DeleteCommentPage({ comment }) {
       );
 
       const data = await response.json();
-      console.log(data);
+
       if (data.success) router.back();
     } catch (error) {
       console.log(error);

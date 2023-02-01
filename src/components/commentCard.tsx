@@ -36,7 +36,7 @@ export default function CommentCard({
         }
       );
       const apiData = await response.json();
-      console.log(apiData);
+
       mutate(`/api/comment/byPostId/${postId}`);
     } catch (error) {
       console.log(error);

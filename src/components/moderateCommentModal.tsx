@@ -41,7 +41,6 @@ export default function ModerateCommentModal(props) {
         }
       );
       const apiData = await response.json();
-      console.log(apiData);
       reset();
       props.onHide();
       props.mutate(`/api/comment/byPostId/${props.postId}`);

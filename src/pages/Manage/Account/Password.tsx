@@ -46,7 +46,6 @@ const PasswordPage = function () {
       if (resObj.error === true) setShowError(true);
       if (resObj.error === false) setShowSucess(true);
       setMessage(resObj.message);
-      console.log(resObj);
       setIsLoading(false);
     } catch (error) {}
   };
