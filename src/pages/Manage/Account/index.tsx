@@ -65,7 +65,6 @@ const ProfilePage = function () {
         }
       );
       const jsonResponse = await response.json();
-      console.log(jsonResponse);
       mutate(`/api/user`);
     } catch (error) {
       console.log(error);

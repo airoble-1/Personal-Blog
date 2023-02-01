@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import ModerateCommentModal from "../../components/moderateCommentModal";
 import useSWR, { useSWRConfig } from "swr";
 import { prisma } from "../../server/db/client";
+import { TypographyStylesProvider } from "@mantine/core";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -36,7 +37,7 @@ export default function PostDetailsPage({ post }) {
         }
       );
       const apiData = await response.json();
-      console.log(apiData);
+
       reset();
       mutate(`/api/comment/byPostId/${post.id}`);
     } catch (error) {
@@ -56,7 +57,9 @@ export default function PostDetailsPage({ post }) {
       <article className="mb-4">
         <div className="row justify-content-center">
           <div className="col-md-12 col-lg-10 col-xl-9 fs-5 ">
-            {post.content}
+            <TypographyStylesProvider>
+              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+            </TypographyStylesProvider>
           </div>
         </div>
       </article>
