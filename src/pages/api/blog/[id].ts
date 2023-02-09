@@ -13,7 +13,21 @@ export default nc()
     res.json({ blogs });
   })
   .patch(async (req: NextApiRequest, res: NextApiResponse) => {
-    res.json({ message: "update post" });
+    const { id } = req.query;
+    console.log("Print");
+    try {
+      await prisma.blog.update({
+        where: {
+          id: +id,
+        },
+        data: req.body,
+      });
+      res.json({ message: "Blog has been updated" });
+    } catch (error) {
+      console.log(error);
+      res.status(422).json({ error: "Unable to update blog" });
+      return;
+    }
   })
   .delete(async (req: NextApiRequest, res: NextApiResponse) => {
     res.json({ message: "delete post" });

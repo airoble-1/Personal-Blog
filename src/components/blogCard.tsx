@@ -57,7 +57,7 @@ export default function BlogCard({ blog }) {
                   create post
                 </a>
               </Link>
-              <Link href="#" legacyBehavior>
+              <Link href={`blog/edit/${blog.id}`} legacyBehavior>
                 <a className="btn w-75 btn-danger text-uppercase fw-bold d-inline-block mb-2 text-white">
                   edit blog
                 </a>
