@@ -155,7 +155,7 @@ const EditBlogPage = ({ blogData }) => {
             <div className="form-group mt-3 mb-3">
               <button
                 type="submit"
-                // disabled={isLoading}
+                disabled={isLoading}
                 className="btn btn-secondary fs-5 text-uppercase w-100 fw-bold my-2"
               >
                 Save
