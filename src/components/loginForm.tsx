@@ -92,22 +92,11 @@ export default function LoginForm() {
               </label>
             </div>
             <p className="">
-              <Link href="/" className="text-secondary fw-bold">
-                Forgot your password?
-              </Link>
-            </p>
-            <p className="">
               <Link href="/register" className="text-secondary fw-bold">
                 Register as a new user
               </Link>
             </p>
-            <p className="">
-              <Link href="/login" className="text-secondary fw-bold">
-                
-                  Resend email confirmation
-                
-              </Link>
-            </p>
+
             <button
               type="submit"
               disabled={isLoading}

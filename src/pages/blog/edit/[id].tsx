@@ -1,8 +1,9 @@
-import type { NextPage } from "next";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { prisma } from "../../../server/db/client";
 
 type Formvalues = {
   name: string;
@@ -10,24 +11,14 @@ type Formvalues = {
   file: File;
 };
 
-const Home: NextPage = () => {
-  // const [nameValue, setName] = useState("");
-  // const [description, setDescription] = useState("");
+const EditBlogPage = ({ blogData }) => {
   const [isLoading, setIsLoading] = useState(false);
-  // const [selectedFIle, setSelectedFile] = useState();
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Formvalues>();
-
-  // const handleImageChange = function (data) {
-  //   const fileList = e.target.files;
-  //   if (!fileList) return;
-  //   setSelectedFile(fileList[0]);
-  // };
 
   const uploadFile = async function (data) {
     if (data.file[0]) {
@@ -45,25 +36,28 @@ const Home: NextPage = () => {
     }
   };
   async function submitHandler(userData) {
-    // e.preventDefault();
     const { name, description } = userData;
     setIsLoading(true);
     try {
       const fileData = await uploadFile(userData);
 
-      if (!fileData) return;
-      const response = await fetch(`${window.location.origin}/api/blog`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          description,
-          featureimage: fileData.secure_url,
-        }),
-      });
+      const response = await fetch(
+        `${window.location.origin}/api/blog/${blogData.id}`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            description,
+            featureimage: fileData
+              ? fileData.secure_url
+              : blogData.featureimage,
+          }),
+        }
+      );
       setIsLoading(false);
       if (!response.ok) throw Error("Failed to create post");
       const data = await response.json();
@@ -82,7 +76,13 @@ const Home: NextPage = () => {
           <h3 className="fw-bolder">Blog</h3>
           <hr />
           <form onSubmit={handleSubmit((data) => submitHandler(data))}>
-            <div className="text-danger"></div>
+            <Image
+              src={blogData.featureimage}
+              className="img-fluid"
+              alt="Blog featured image"
+              width={225}
+              height={225}
+            />
             <div className="form-group mb-3">
               <label className="control-label fw-bold fs-5 mb-2">Name</label>
               <input
@@ -99,10 +99,9 @@ const Home: NextPage = () => {
                     message:
                       "The name must be at least 2 to 100 characters long.",
                   },
+                  value: blogData.name,
                 })}
                 className="form-control"
-                //onChange={(e) => setName(e.target.value)}
-                //name={name}
               />
               {errors.name && (
                 <div className="text-danger">{errors.name.message}</div>
@@ -126,9 +125,8 @@ const Home: NextPage = () => {
                     message:
                       "The description must be at least 2 to 500 characters long.",
                   },
+                  value: blogData.description,
                 })}
-                //   onChange={(e) => setDescription(e.target.value)}
-                // value={description}
                 className="form-control"
               ></textarea>
               {errors.description && (
@@ -144,13 +142,10 @@ const Home: NextPage = () => {
                 Select Image
               </label>
               <input
-                {...register("file", {
-                  required: "Blog feature image is required",
-                })}
+                {...register("file")}
                 type="file"
                 className="form-control"
                 accept=".jpg,.png,.gif,.jpeg,.svg"
-                // onChange={(e) => handleImageChange(e)}
               />
               {errors.file && (
                 <div className="text-danger">{errors.file.message}</div>
@@ -160,10 +155,10 @@ const Home: NextPage = () => {
             <div className="form-group mt-3 mb-3">
               <button
                 type="submit"
-                disabled={isLoading}
+                // disabled={isLoading}
                 className="btn btn-secondary fs-5 text-uppercase w-100 fw-bold my-2"
               >
-                create
+                Save
               </button>
             </div>
           </form>
@@ -178,4 +173,19 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export async function getServerSideProps({ params }) {
+  const { id } = params;
+  try {
+    let blog = await prisma.blog.findUnique({
+      where: {
+        id: +id,
+      },
+    });
+    const blogData = JSON.parse(JSON.stringify(blog));
+    return { props: { blogData } };
+  } catch (error) {
+    console.log(error);
+    return { props: {} };
+  }
+}
+export default EditBlogPage;

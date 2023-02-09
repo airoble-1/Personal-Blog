@@ -20,7 +20,7 @@ export default function MainMenu() {
             <Navbar.Brand>
               <Image
                 className="rounded-circle"
-                src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1644730077/small_3551739_123584281c.jpg"
+                src="https://res.cloudinary.com/dlwqjptsg/image/upload/v1675899435/My Uploads/wmhirb0vbnu80eaveeor.jpg"
                 alt="Picture of the blogger"
                 width={70}
                 height={70}
