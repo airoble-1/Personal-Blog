@@ -71,7 +71,7 @@ export default function PostDetailsPage({ post }) {
         <div className="row">
           <div className="col d-flex justify-content-center">
             {post.tags.map((tag) => (
-              <a className="btn btn-warning btn-sm btn-block fw-bold text-uppercase fs-5 mr-2 px-3">
+              <a className="btn btn-warning btn-sm btn-block fw-bold text-uppercase fs-5 me-2 px-3">
                 #{tag.text}
               </a>
             ))}

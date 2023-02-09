@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
+import { prisma } from "../../../server/db/client";
 
 export default nc()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -14,7 +15,6 @@ export default nc()
   })
   .patch(async (req: NextApiRequest, res: NextApiResponse) => {
     const { id } = req.query;
-    console.log("Print");
     try {
       await prisma.blog.update({
         where: {

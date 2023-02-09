@@ -1,17 +1,18 @@
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
+import { prisma } from "../../../server/db/client";
 import Select from "react-select";
-import RichTextEditor from "../components/richText";
+import RichTextEditor from "../../../components/richText";
+import { v4 as uuidv4 } from "uuid";
 
 type Formvalues = {
-  name: number;
   title: string;
   abstract: string;
   content: string;
-  image: File;
+  file: File;
   tags: string[];
   readyStatus: string;
 };
@@ -22,12 +23,23 @@ const statuses = [
   { value: "ProductionReady", name: "Production Ready" },
 ];
 
-export default function CreatePostForm({ blogs, blogId }) {
+const EditPostPage = ({ postData }) => {
+  const postStatusArr = statuses.filter(
+    (o) => o.value !== postData.readyStatus
+  );
+  const postCurrentStatusArr = statuses.filter(
+    (o) => o.value === postData.readyStatus
+  );
+
   const [isLoading, setIsLoading] = useState(false);
-  const [tagInput, setTagInput] = useState("");
-  const [tagsArray, setTagsArray] = useState([]);
   const router = useRouter();
-  // const selectRef = useRef<>();
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Formvalues>({ defaultValues: { content: postData.content } });
+
   const handleImageUpload = useCallback(
     (file: File): Promise<string> =>
       new Promise((resolve, reject) => {
@@ -44,48 +56,11 @@ export default function CreatePostForm({ blogs, blogId }) {
       }),
     []
   );
-  function addTag() {
-    const index = tagsArray.findIndex(
-      (option) => option.value === tagInput.toLowerCase()
-    );
-    if (index == -1) {
-      setTagsArray((prev) => [
-        ...prev,
-        { value: tagInput.toLowerCase(), label: tagInput.toLowerCase() },
-      ]);
-    }
-    // if (!tagsArray.includes(tagInput.toUpperCase()))
-    //   setTagsArray((prev) => [...prev, tagInput.toUpperCase()]);
-    setTagInput("");
-  }
-
-  //function removeTag() {
-  // setTagInput([]);
-  // let selectedOptions = selectRef.current.selectedOptions;
-  // const optionsArr = Array.from(selectedOptions);
-  // let optionsValueArr = optionsArr.map((option) => option.value);
-  // console.log("optionsValueArr", optionsValueArr);
-  // setTagsArray((prev) => {
-  //   let filteredItems = prev.filter((item) => {
-  //     optionsValueArr.includes(item);
-  //   });
-  //   return filteredItems;
-  // });
-  // }
-
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Formvalues>({
-    shouldUnregister: true,
-  });
 
   const uploadFile = async function (data) {
-    if (data.image[0]) {
+    if (data.file[0]) {
       const formData = new FormData();
-      formData.append("file", data.image[0]);
+      formData.append("file", data.file[0]);
       formData.append("upload_preset", "my-uploads");
       const response = await fetch(
         "https://api.cloudinary.com/v1_1/dlwqjptsg/image/upload",
@@ -98,79 +73,55 @@ export default function CreatePostForm({ blogs, blogId }) {
     }
   };
   async function submitHandler(userData) {
-    const { name, title, abstract, content, tags, readyStatus } = userData;
+    const { title, abstract, content, readyStatus } = userData;
     setIsLoading(true);
     try {
       const fileData = await uploadFile(userData);
-      if (!fileData) return;
-      const postData = {
-        blogId: blogId ? +blogId : +name,
-        title,
-        abstract,
-        content,
-        featureImage: fileData.secure_url,
-        tags: tags.map((tag) => tag.value),
-        readyStatus: readyStatus,
-      };
-      const response = await fetch(`${window.location.origin}/api/post`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
+
+      const response = await fetch(
+        `${window.location.origin}/api/post/${postData.id}`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            abstract,
+            content,
+            readyStatus,
+            featureImage: fileData
+              ? fileData.secure_url
+              : postData.featureImage,
+          }),
+        }
+      );
       setIsLoading(false);
+      if (!response.ok) throw Error("Failed to create post");
       const data = await response.json();
-      if (data.success) {
-        router.push("/");
-      }
+      if (data.message) router.push("/");
     } catch (error) {
-      console.log(error);
+      setIsLoading(false);
+      console.log("Error: Unable to create post");
     }
   }
   return (
     <div className="container">
       <div className="row gx-4 gx-lg-5 justify-content-center">
         <div className="col-md-12 col-lg-8 col-xl-7">
-          <h1 className="fw-bold">Create</h1>
+          <h1 className="fw-bold">Edit</h1>
 
           <h3 className="fw-bolder">Post</h3>
           <hr />
           <form onSubmit={handleSubmit((data) => submitHandler(data))}>
-            <div className="form-group mb-3">
-              <label className="control-label fw-bold fs-5 mb-2">
-                Blog Name
-              </label>
-              {!blogId && (
-                <select
-                  {...register("name", {
-                    required: "Blog name is required",
-                  })}
-                  className="form-control form-select"
-                >
-                  <option value="">Choose a blog...</option>
-                  {!blogId &&
-                    blogs.map((blog) => (
-                      <option key={uuidv4()} value={blog.id}>
-                        {blog.name}
-                      </option>
-                    ))}
-                </select>
-              )}
-              {blogId && (
-                <select
-                  className="form-control form-select"
-                  disabled={blogId}
-                  value={blogs.id}
-                >
-                  <option value={blogs.id}>{blogs.name}</option>
-                </select>
-              )}
-              {errors.name && (
-                <div className="text-danger">{errors.name.message}</div>
-              )}
-            </div>
+            <Image
+              src={postData.featureImage}
+              className="img-fluid"
+              alt="Post featured image"
+              width={250}
+              height={200}
+            />
             <div className="form-group mb-3">
               <label className="control-label fw-bold fs-5 mb-2">Title</label>
               <input
@@ -187,6 +138,7 @@ export default function CreatePostForm({ blogs, blogId }) {
                     message:
                       "The post title must be at least 2 to 100 characters long.",
                   },
+                  value: postData.title,
                 })}
                 className="form-control"
               />
@@ -211,6 +163,7 @@ export default function CreatePostForm({ blogs, blogId }) {
                     message:
                       "Post abstract must be at least 2 to 500 characters long.",
                   },
+                  value: postData.abstract,
                 })}
                 className="form-control"
               ></textarea>
@@ -236,78 +189,19 @@ export default function CreatePostForm({ blogs, blogId }) {
                 <div className="text-danger">{errors.content.message}</div>
               )}
             </div>
-            <div className="form-group  mb-3">
+            <div className="form-group">
               <label className="control-label fw-bold fs-5 mb-2">
                 Select Image
               </label>
               <input
-                {...register("image", {
-                  required: "Post feature image is required",
-                })}
+                {...register("file")}
                 type="file"
                 className="form-control"
                 accept=".jpg,.png,.gif,.jpeg,.svg"
               />
-              {errors.image && (
-                <div className="text-danger">{errors.image.message}</div>
+              {errors.file && (
+                <div className="text-danger">{errors.file.message}</div>
               )}
-            </div>
-
-            <div className="form-group mb-2">
-              <div className="row">
-                <div className="col">
-                  <label className="control-label fw-bold fs-5 mb-2">
-                    Manage Tags
-                  </label>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col">
-                  <div className="row mb-2">
-                    <div className="col">
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={tagInput}
-                        onChange={(e) => setTagInput(e.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col mb-1">
-                      <button
-                        name="Add"
-                        type="button"
-                        className="btn btn-dark btn-sm w-100 text-uppercase w-100 fw-bold rounded"
-                        onClick={() => addTag()}
-                        disabled={tagInput == ""}
-                      >
-                        Add
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="col">
-                  <Controller
-                    name="tags"
-                    control={control}
-                    rules={{ required: "Tag(s) for post is required" }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        instanceId="long-value-select"
-                        id="long-value-select"
-                        isMulti
-                        options={tagsArray}
-                      />
-                    )}
-                  />
-                  {errors.tags && (
-                    <div className="text-danger">{errors.tags.message}</div>
-                  )}
-                </div>
-              </div>
             </div>
 
             <div className="form-group mb-3">
@@ -320,8 +214,10 @@ export default function CreatePostForm({ blogs, blogId }) {
                 })}
                 className="form-control form-select"
               >
-                <option value="">Choose a publish status...</option>
-                {statuses.map((status) => (
+                <option value={postData.readyStatus}>
+                  {postCurrentStatusArr[0].name}
+                </option>
+                {postStatusArr.map((status) => (
                   <option key={uuidv4()} value={status.value}>
                     {status.name}
                   </option>
@@ -338,7 +234,7 @@ export default function CreatePostForm({ blogs, blogId }) {
                 disabled={isLoading}
                 className="btn btn-secondary fs-5 text-uppercase w-100 fw-bold my-2"
               >
-                create
+                Save
               </button>
             </div>
           </form>
@@ -351,4 +247,22 @@ export default function CreatePostForm({ blogs, blogId }) {
       </div>
     </div>
   );
+};
+
+export async function getServerSideProps({ params }) {
+  const { id } = params;
+  try {
+    let post = await prisma.post.findUnique({
+      where: {
+        id: +id,
+      },
+    });
+    const postData = JSON.parse(JSON.stringify(post));
+    return { props: { postData } };
+  } catch (error) {
+    console.log(error);
+    return { props: {} };
+  }
 }
+
+export default EditPostPage;

@@ -13,14 +13,9 @@ function Home({ data }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx) {
   try {
     let blogs = await prisma.blog.findMany();
-    // const response = await fetch(`http://localhost:3000/api/blog`);
-    // if (!response.ok) {
-    //   throw new Error("Error: Could not retrieve blogs");
-    // }
-    // const blogData = await response.json();
 
     const data = JSON.parse(JSON.stringify(blogs));
     return { props: { data } };
